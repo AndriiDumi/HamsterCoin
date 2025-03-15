@@ -2,7 +2,7 @@ create database HamsterHouse;
 use HamsterHouse;
 
 create table users(
-id_user bigint primary key auto_increment not null,
+user_id bigint primary key auto_increment not null,
 mail varchar(100),
 password varchar(255)
 );
@@ -18,10 +18,10 @@ create table user_details(
 );
 
 create table games(
-id_game bigint not null auto_increment primary key,
+game_id bigint not null auto_increment primary key,
 name varchar(50) not null,
 isMultiplayer bool not null,
-count_of_playes int not null
+count_of_players int not null
 );
 
 
