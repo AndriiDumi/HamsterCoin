@@ -1,4 +1,3 @@
-drop database HamsterHouse;
 create database HamsterHouse;
 use HamsterHouse;
 
