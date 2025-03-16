@@ -57,7 +57,7 @@ create table cards (
 
 create table user_cards(
     user_id bigint not null,
-    card_id bigint nit null,
+    card_id bigint not null,
 
     foreign key(user_id) 
     references user(id)
