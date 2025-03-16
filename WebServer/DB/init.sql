@@ -31,7 +31,7 @@ create table dep_history (
     date_of_dep datetime not null,
 
     foreign key(user_id) 
-    references user(id)
+    references users(id)
         on delete no action
         on update cascade
 )
@@ -43,7 +43,7 @@ create table withdraw_history (
     date_of_withdraw datetime not null,
 
     foreign key(user_id) 
-    references user(id)
+    references users(id)
         on delete no action
         on update cascade
 )
@@ -60,7 +60,7 @@ create table user_cards(
     card_id bigint not null,
 
     foreign key(user_id) 
-    references user(id)
+    references users(id)
         on delete no action
         on update cascade
     
