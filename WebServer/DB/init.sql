@@ -1,3 +1,4 @@
+drop database if exists HamsterHouse;
 create database HamsterHouse;
 use HamsterHouse;
 
@@ -13,7 +14,7 @@ create table user_details(
  promocode varchar(50),
  balance decimal,
  birth_date date,
- foreign key(user_id) references users(id_user)
+ foreign key(id) references users(id)
  on delete no action on update cascade
 );
 
@@ -34,10 +35,10 @@ create table dep_history (
     references users(id)
         on delete no action
         on update cascade
-)
+);
 
 create table withdraw_history (
-    id int auto_increment,
+    id int auto_increment primary key,
     user_id bigint not null, 
     sum_of_withdraw decimal not null,
     date_of_withdraw datetime not null,
@@ -46,14 +47,14 @@ create table withdraw_history (
     references users(id)
         on delete no action
         on update cascade
-)
+);
 
 create table cards (
     id bigint auto_increment primary key,
     number varchar(12) not null,
     date varchar(4) not null,
     cvv varchar(3) not null
-)
+);
 
 create table user_cards(
     user_id bigint not null,
@@ -62,11 +63,11 @@ create table user_cards(
     foreign key(user_id) 
     references users(id)
         on delete no action
-        on update cascade
+        on update cascade,
     
     foreign key(card_id) 
     references cards(id)
         on delete no action
         on update cascade
         
-)
+);
