@@ -22,14 +22,14 @@ create table games(
 game_id bigint auto_increment primary key,
 name varchar(50) not null,
 isMultiplayer bool not null,
-count_of_players int not null
+count_players int not null
 );
 
 create table dep_history (
     id int auto_increment primary key,
     user_id bigint, 
-    sum_of_dep decimal not null,
-    date_of_dep datetime not null,
+    sum_dep decimal not null,
+    date_dep datetime not null,
 
     foreign key(user_id) 
     references users(id)
@@ -40,8 +40,8 @@ create table dep_history (
 create table withdraw_history (
     id int auto_increment primary key,
     user_id bigint not null, 
-    sum_of_withdraw decimal not null,
-    date_of_withdraw datetime not null,
+    sum_withdraw decimal not null,
+    date_withdraw datetime not null,
 
     foreign key(user_id) 
     references users(id)
