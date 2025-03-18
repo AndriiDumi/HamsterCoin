@@ -15,12 +15,12 @@ public class Deposit
     [Column("user_id")]
     public long? UserId { get; set; }
 
-    [Column("sum_dep")]
     [Required]
+    [Column("sum_dep")]
     public decimal SumDep { get; set; }
 
-    [Column("date_dep")]
     [Required]
+    [Column("date_dep")]
     public DateTime DateDep { get; set; }
 }
 

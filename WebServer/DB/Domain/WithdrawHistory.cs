@@ -12,16 +12,16 @@ namespace HamsterCoin.Domain{
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Column("user_id")]
         [Required]
+        [Column("user_id")]
         public long UserId { get; set; }
 
-        [Column("sum_withdraw")]
         [Required]
+        [Column("sum_withdraw")]
         public decimal SumWithdraw { get; set; }
 
-        [Column("date_withdraw")]
         [Required]
+        [Column("date_withdraw")]
         public DateTime DateWithdraw { get; set; }
     }
 }

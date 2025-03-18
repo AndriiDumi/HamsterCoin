@@ -11,18 +11,18 @@ namespace HamsterCoin.Domain{
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        [Column("number")]
         [Required]
+        [Column("number")]
         [MaxLength(12)]
         public string Number { get; set; } = null!;
 
-        [Column("date")]
         [Required]
+        [Column("date")]
         [MaxLength(4)]
         public string Date { get; set; } = null!;
 
-        [Column("cvv")]
         [Required]
+        [Column("cvv")]
         [MaxLength(3)]
         public string Cvv { get; set; } = null!;
     }

@@ -12,17 +12,17 @@ public class Game
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
     public long GameId { get; set; } 
 
-    [Column("name")] 
     [Required] 
+    [Column("name")] 
     [MaxLength(50)] 
     public string Name { get; set; } = null!;
 
-    [Column("isMultiplayer")] 
     [Required] 
+    [Column("isMultiplayer")] 
     public bool IsMultiplayer { get; set; } 
 
-    [Column("count_players")] 
     [Required] 
+    [Column("count_players")] 
     public int CountPlayers { get; set; }
 }
 

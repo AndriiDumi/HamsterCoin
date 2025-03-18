@@ -14,8 +14,8 @@ namespace HamsterCoin.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)] 
         public int Id { get; set; }
 
-        [Column("mail")]
         [Required]
+        [Column("mail")]
         [MaxLength(100)]
         public string Mail { get; set; }
 
