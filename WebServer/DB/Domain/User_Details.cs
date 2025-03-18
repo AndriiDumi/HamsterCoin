@@ -27,7 +27,7 @@ using HamsterCoin.Domain{
         public decimal Balance {get;set}
 
         [Column("birth_date")]
-        public DateTime birth_date{get;set}
+        public DateTime BirthDate{get;set}
 
     }
 }

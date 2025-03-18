@@ -15,7 +15,7 @@ namespace HamsterCoin.Domain
         public int Id { get; set; }
 
         [Required]
-        [Column("mail")]
+        [Column("mail")] // Переглянути можливість [EmailAddres]
         [MaxLength(100)]
         public string Mail { get; set; }
 
