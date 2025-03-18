@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace HamsterCoin.Domain{
 
 [Table("dep_history")]
-public class Deposit
+public class DepositHistory
 {
     [Key]
     [Column("id")]
