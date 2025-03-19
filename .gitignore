@@ -1,6 +1,10 @@
+
+/obj
 *.csproj.user
 .vs/
 bin/
+/.vs
+
 Generated\ Files/
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
@@ -39,3 +43,4 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+
