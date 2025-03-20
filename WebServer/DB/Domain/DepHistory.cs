@@ -4,10 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HamsterCoin.Domain{
 
-[Table("dep_history")]
-public class DepositHistory
-{
-
     [Table("dep_history")]
     public class DepositHistory
     {
