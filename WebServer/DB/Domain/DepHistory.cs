@@ -2,7 +2,10 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace HamsterCoin.Domain
+namespace HamsterCoin.Domain{
+
+[Table("dep_history")]
+public class DepositHistory
 {
 
     [Table("dep_history")]
