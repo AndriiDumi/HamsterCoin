@@ -8,4 +8,5 @@ namespace HamsterCoin.Services.Interfaces
         
         Task UpdateAsync(long id, UserDetails newEntity);
     }
+    
 }
