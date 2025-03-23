@@ -1,20 +1,13 @@
-using HamsterCoin.Database;
-using Microsoft.EntityFrameworkCore;
+using HamsterCoin.Domain;
+using HamsterCoin.Extensions;
+using HamsterCoin.Services.Implementations;
+using HamsterCoin.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureDatasource(builder.Configuration);
 
-
-// Отримання рядка підключення з appsettings.json
-var connectionString = builder.Configuration.GetConnectionString("MyDatabase");
-
-// Вказуємо версію MySQL сервера (замініть версію на свою)
-var serverVersion = ServerVersion.AutoDetect(connectionString);
-
-// Додаємо контекст бази даних
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseMySql(connectionString, serverVersion)
-);
+builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 
 var app = builder.Build();
 

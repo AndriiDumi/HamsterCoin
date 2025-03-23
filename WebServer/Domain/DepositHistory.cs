@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace HamsterCoin.Domain{
+namespace HamsterCoin.Domain
+{
 
     [Table("dep_history")]
     public class DepositHistory
@@ -27,5 +28,4 @@ namespace HamsterCoin.Domain{
         [Column("date_dep")]
         public DateTime DateDep { get; set; }
     }
-
 }

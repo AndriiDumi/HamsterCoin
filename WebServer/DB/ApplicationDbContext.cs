@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using HamsterCoin.Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using HamsterCoin.DbConfiguration;
 
 namespace HamsterCoin.Database
 {
@@ -16,23 +18,11 @@ namespace HamsterCoin.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserDetails>()
-                .HasOne(ud => ud.User)
-                .WithMany() //оскільки в User немає властивості UserDetails, ми просто вказуємо .WithMany() без параметрів
-                .HasForeignKey(ud => ud.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<DepositHistory>()
-                .HasOne(d => d.User)
-                .WithMany()
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<WithdrawHistory>()
-                .HasOne(w => w.User)
-                .WithMany()
-                .HasForeignKey(w => w.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new UserDetailsConfiguration());
+            modelBuilder.ApplyConfiguration(new DepositHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new WithdrawHistoryConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
 
         //TODO

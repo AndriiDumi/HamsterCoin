@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace HamsterCoin.Domain{
+namespace HamsterCoin.Domain
+{
 
     [Table("withdraw_history")]
     public class WithdrawHistory
@@ -12,9 +13,12 @@ namespace HamsterCoin.Domain{
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [ForeignKey(nameof(User))]
         [Column("user_id")]
         public long UserId { get; set; }
+
+        [NotMapped]
+        public User? User { get; set; }
 
         [Required]
         [Column("sum_withdraw")]
