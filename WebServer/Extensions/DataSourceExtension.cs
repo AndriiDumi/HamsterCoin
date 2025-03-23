@@ -9,7 +9,7 @@ namespace HamsterCoin.Extensions
         {
             // Отримання рядка підключення з appsettings.json
             var connectionString = configuration.GetConnectionString("MyDatabase");
-            
+
             // Вказуємо версію MySQL сервера (замініть версію на свою)
             var serverVersion = ServerVersion.AutoDetect(connectionString);
 

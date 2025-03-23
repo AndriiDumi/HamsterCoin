@@ -28,5 +28,4 @@ namespace HamsterCoin.Domain
         [Column("date_dep")]
         public DateTime DateDep { get; set; }
     }
-
 }
