@@ -12,9 +12,12 @@ namespace HamsterCoin.Domain{
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
+        [ForeignKey(nameof(User))]
         [Column("user_id")]
         public long UserId { get; set; }
+
+        [NotMapped]
+        public User? User { get; set; }
 
         [Required]
         [Column("sum_withdraw")]
