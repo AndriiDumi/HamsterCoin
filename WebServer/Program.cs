@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureDatasource(builder.Configuration);
 
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
