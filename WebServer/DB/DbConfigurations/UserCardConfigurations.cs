@@ -8,6 +8,7 @@ namespace HamsterCoin.DbConfiguration
     {
         public void Configure(EntityTypeBuilder<UserCard> builder)
         {
+            builder.HasNoKey();
             builder
                 .HasOne(d => d.User)
                 .WithMany()
@@ -21,4 +22,4 @@ namespace HamsterCoin.DbConfiguration
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
-}
+};
