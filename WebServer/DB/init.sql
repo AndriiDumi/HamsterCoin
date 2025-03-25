@@ -28,7 +28,7 @@ create table games(
 );
 
 create table dep_history (
-    id int auto_increment primary key,
+    id bigint auto_increment primary key,
     user_id bigint, 
     sum_dep decimal not null,
     date_dep datetime not null,
@@ -40,7 +40,7 @@ create table dep_history (
 );
 
 create table withdraw_history (
-    id int auto_increment primary key,
+    id bigint auto_increment primary key,
     user_id bigint not null, 
     sum_withdraw decimal not null,
     date_withdraw datetime not null,

@@ -1,7 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace HamsterCoin.Domain
 {
@@ -13,12 +11,12 @@ namespace HamsterCoin.Domain
         [Key]
         [Required]
         [Column("id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required]
         [ForeignKey(nameof(User))]
         [Column("user_id")]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         [NotMapped] // Це поле не буде збережене в БД
         public User? User { get; set; } //навігаційне поле

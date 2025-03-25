@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using HamsterCoin.Domain;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using HamsterCoin.DbConfiguration;
 
 namespace HamsterCoin.Database
@@ -13,8 +12,7 @@ namespace HamsterCoin.Database
         public required DbSet<DepositHistory> DepHistory { get; set; }
         public required DbSet<WithdrawHistory> WithdrawHistory { get; set; }
         public required DbSet<Card> Cards { get; set; }
-
-        //Maybe implement User_Cards
+        public required DbSet<UserCard> UserCards { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +20,7 @@ namespace HamsterCoin.Database
             modelBuilder.ApplyConfiguration(new UserDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new DepositHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new WithdrawHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new UserCardConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
