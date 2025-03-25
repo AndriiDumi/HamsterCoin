@@ -6,6 +6,6 @@ namespace HamsterCoin.Services.Interfaces
     {
         Task CreateAsync(User user);
         Task UpdateAsync(long id, User newEntity);
-        Task<List<User>> GetAllUsersAsync();
+        Task<List<User>> GetAllUsersAsync(); // List or IEnum?
     }
 }

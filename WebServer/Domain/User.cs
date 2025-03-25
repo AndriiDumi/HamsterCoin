@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
 
 namespace HamsterCoin.Domain
 {
@@ -15,7 +14,7 @@ namespace HamsterCoin.Domain
         public int Id { get; set; }
 
         [Required]
-        [Column("mail")] // Переглянути можливість [EmailAddres]
+        [Column("mail")]
         [EmailAddress]
         [MaxLength(100)]
         public string Mail { get; set; }

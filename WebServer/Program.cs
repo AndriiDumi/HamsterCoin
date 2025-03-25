@@ -9,6 +9,7 @@ builder.Services.ConfigureDatasource(builder.Configuration);
 
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 

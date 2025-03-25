@@ -19,7 +19,7 @@ namespace HamsterCoin.Services.Implementations
             var oldEntity = await GetByIdAsync(id);
             
             UpdateValues(oldEntity, newEntity);
-            _dbContext.Set<UserDetails>().Update(oldEntity);
+            _dbContext.Set<UserDetails>().Update(oldEntity); //ExecuteUpdateAsync - ExecuteDeleteAsync()
             await _dbContext.SaveChangesAsync();
         }
 
