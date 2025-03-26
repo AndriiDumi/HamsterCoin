@@ -1,11 +1,11 @@
 using HamsterCoin.Domain;
-using HamsterCoin.DTO;
+using HamsterCoin.Mapping;
 
 namespace HamsterCoin.Services.Interfaces
 {
     public interface IWithDrawService
     {
-        Task CreateRecordAsync(WithdrawDTO withdraw);
-        Task<List<WithdrawHistory>> GetAllHistoryWithdrawAsync(long IdUser);
+        Task CreateAsync(WithdrawHistory withdraw);
+        Task<List<WithdrawHistory>> GetAllHistoryWithdrawAsync(long UserId);
     }
 }

@@ -1,7 +1,7 @@
 using HamsterCoin.Database;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
-using HamsterCoin.DTO;
+using HamsterCoin.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace HamsterCoin.Services.Implementations
@@ -10,27 +10,16 @@ namespace HamsterCoin.Services.Implementations
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
 
-        public async Task CreateRecordAsync(WithdrawDTO withdraw)
+        public async Task CreateAsync(WithdrawHistory withdraw)
         {
-            using (var context = _dbContext)
-            {
-                var Withdraw = new WithdrawHistory
-                {
-                    UserId = withdraw.UserId,
-                    SumWithdraw = withdraw.SumWithdraw,
-                    User = withdraw.User,
-                    DateWithdraw = withdraw.DateWithdraw
-                };
-
-                await context.WithdrawHistory.AddAsync(Withdraw);
+                _dbContext.WithdrawHistory.Add(withdraw);
                 await _dbContext.SaveChangesAsync();
-            }
         }
 
-        public async Task<List<WithdrawHistory>> GetAllHistoryWithdrawAsync(long IdUser)
+        public async Task<List<WithdrawHistory>> GetAllHistoryWithdrawAsync(long UserId)
         {
             return await _dbContext.WithdrawHistory
-                .Where(withdraw => withdraw.UserId == IdUser)
+                .Where(withdraw => withdraw.UserId == UserId)
                 .ToListAsync();
         }
     }

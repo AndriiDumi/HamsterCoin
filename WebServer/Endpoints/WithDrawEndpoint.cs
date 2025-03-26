@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
-using HamsterCoin.DTO;
+using HamsterCoin.Mapping;
 
 namespace HamsterCoin.Endpoints
 {
@@ -10,13 +10,19 @@ namespace HamsterCoin.Endpoints
     {
         public static void WithDrawEndpoints(this IEndpointRouteBuilder routes)
         {
-            var routeGroupBuilder = routes.MapGroup("/withdraw");
+            var routeGroupBuilder = routes.MapGroup("/withdrawhistory");
 
-            routeGroupBuilder.MapPost("/", async ([FromBody] WithdrawDTO withdraw, [FromServices] IWithDrawService withDrawService) =>
+            routes.MapPost("/withdraw", async ([FromBody] WithdrawDTO request, [FromServices] IWithDrawService withDrawService) =>
             {
+
                 try
                 {
-                    await withDrawService.CreateRecordAsync(withdraw);
+                    await withDrawService.CreateAsync(new WithdrawHistory
+                    {
+                        UserId = request.UserId,
+                        SumWithdraw = request.SumWithdraw,
+                        DateWithdraw = request.DateWithdraw
+                    });
                 }
                 catch (Exception e)
                 {
@@ -26,12 +32,12 @@ namespace HamsterCoin.Endpoints
                 return Results.Ok();
             });
 
-            routes.MapGet("/withdrawhistory/{idUser}", async (long idUser, [FromServices] IWithDrawService withDrawService) =>
+            routes.MapGet("/{UserId}", async (long UserId, [FromServices] IWithDrawService withDrawService) =>
             {
                 List<WithdrawHistory> history;
                 try
                 {
-                    history = await withDrawService.GetAllHistoryWithdrawAsync(idUser);
+                    history = await withDrawService.GetAllHistoryWithdrawAsync(UserId);
                 }
                 catch (Exception e)
                 {
