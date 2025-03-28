@@ -16,9 +16,10 @@ namespace HamsterCoin.Services.Implementations
 
         public async Task<List<DepositHistory>> GetHistoryDep(long UserId)
         {
-            return await _dbContext.DepHistory
+            var entity = await _dbContext.DepHistory
                 .Where(deposit => deposit.UserId == UserId)
                 .ToListAsync(); 
+            return entity ?? throw new Exception("no records found");
         }
     }
 }

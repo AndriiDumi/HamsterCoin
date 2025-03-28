@@ -18,9 +18,10 @@ namespace HamsterCoin.Services.Implementations
 
         public async Task<List<WithdrawHistory>> GetAllHistoryWithdrawAsync(long UserId)
         {
-            return await _dbContext.WithdrawHistory
+            var entity = await _dbContext.WithdrawHistory
                 .Where(withdraw => withdraw.UserId == UserId)
                 .ToListAsync();
+            return entity ?? throw new Exception("no records found");
         }
     }
 }

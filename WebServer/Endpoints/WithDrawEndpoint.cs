@@ -15,34 +15,21 @@ namespace HamsterCoin.Endpoints
             routes.MapPost("/withdraw", async ([FromBody] WithdrawDTO request, [FromServices] IWithDrawService withDrawService) =>
             {
 
-                try
+                await withDrawService.CreateAsync(new WithdrawHistory
                 {
-                    await withDrawService.CreateAsync(new WithdrawHistory
-                    {
-                        UserId = request.UserId,
-                        SumWithdraw = request.SumWithdraw,
-                        DateWithdraw = request.DateWithdraw
-                    });
-                }
-                catch (Exception e)
-                {
-                    return Results.Problem(detail: e.Message, statusCode: 500);
-                }
-
+                    UserId = request.UserId,
+                    SumWithdraw = request.SumWithdraw,
+                    DateWithdraw = request.DateWithdraw
+                });
+       
                 return Results.Ok();
             });
 
             routes.MapGet("/{UserId}", async (long UserId, [FromServices] IWithDrawService withDrawService) =>
             {
                 List<WithdrawHistory> history;
-                try
-                {
-                    history = await withDrawService.GetAllHistoryWithdrawAsync(UserId);
-                }
-                catch (Exception e)
-                {
-                    return Results.Problem(detail: e.Message, statusCode: 500);
-                }
+               
+                history = await withDrawService.GetAllHistoryWithdrawAsync(UserId);
                 return Results.Ok(history);
             });
 

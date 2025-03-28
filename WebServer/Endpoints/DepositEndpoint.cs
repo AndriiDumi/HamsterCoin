@@ -13,33 +13,23 @@ namespace HamsterCoin.Endpoints
 
             routeGroupBuilder.MapPost("/", async (DepositDTO deposit, IDepositService depositService) =>
             {
-                try
+
+                await depositService.CreateAsync(new DepositHistory
                 {
-                    await depositService.CreateAsync(new DepositHistory
-                    {
-                        UserId = deposit.UserId,
-                        SumDep = deposit.SumDep,
-                        DateDep = deposit.DateDep
-                    });
-                }
-                catch (Exception e)
-                {
-                    return Results.Problem(detail: e.Message, statusCode: 404);
-                }
+                    UserId = deposit.UserId,
+                    SumDep = deposit.SumDep,
+                    DateDep = deposit.DateDep
+                });
+
                 return Results.Ok();
             });
-            
-            route.MapGet("deposithistory/{UserId}", async (long UserId,[FromServices] IDepositService depositService) =>
+
+            route.MapGet("deposithistory/{UserId}", async (long UserId, [FromServices] IDepositService depositService) =>
             {
                 List<DepositHistory> dep;
-                try
-                {
-                    dep = await depositService.GetHistoryDep(UserId);
-                }
-                catch (Exception e)
-                {
-                    return Results.Problem(detail: e.Message, statusCode: 404);
-                }
+
+                dep = await depositService.GetHistoryDep(UserId);
+
                 return Results.Ok(dep);
             });
         }
