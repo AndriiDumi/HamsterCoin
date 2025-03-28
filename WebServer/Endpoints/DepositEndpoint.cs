@@ -24,7 +24,7 @@ namespace HamsterCoin.Endpoints
                 }
                 catch (Exception e)
                 {
-                    return Results.Problem(detail: e.Message, statusCode: 500);
+                    return Results.Problem(detail: e.Message, statusCode: 404);
                 }
                 return Results.Ok();
             });
