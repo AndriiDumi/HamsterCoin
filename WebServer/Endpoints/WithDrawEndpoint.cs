@@ -12,7 +12,8 @@ namespace HamsterCoin.Endpoints
         {
             var routeGroupBuilder = routes.MapGroup("/withdrawhistory");
 
-            routes.MapPost("/withdraw", async ([FromBody] WithdrawDTO request, [FromServices] IWithDrawService withDrawService) =>
+            routes.MapPost("/withdraw", async ([FromBody] WithdrawDTO request, 
+                [FromServices] IWithDrawService withDrawService) =>
             {
 
                 await withDrawService.CreateAsync(new WithdrawHistory

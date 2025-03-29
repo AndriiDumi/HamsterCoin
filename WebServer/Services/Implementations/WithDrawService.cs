@@ -12,8 +12,8 @@ namespace HamsterCoin.Services.Implementations
 
         public async Task CreateAsync(WithdrawHistory withdraw)
         {
-                _dbContext.WithdrawHistory.Add(withdraw);
-                await _dbContext.SaveChangesAsync();
+            _dbContext.WithdrawHistory.Add(withdraw);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<List<WithdrawHistory>> GetAllHistoryWithdrawAsync(long UserId)
@@ -21,7 +21,7 @@ namespace HamsterCoin.Services.Implementations
             var entity = await _dbContext.WithdrawHistory
                 .Where(withdraw => withdraw.UserId == UserId)
                 .ToListAsync();
-            return entity ?? throw new Exception("no records found");
+            return entity ?? throw new Exception("No records found");
         }
     }
 }
