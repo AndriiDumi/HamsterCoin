@@ -7,6 +7,8 @@ namespace HamsterCoin.Extensions
         public static void MapHamsterCoinEndpoints(this IEndpointRouteBuilder app)
         {
             app.UserEndpoints();
+            app.WithDrawEndpoints();
+            app.DepositEndpoints();
         }
     }
 }

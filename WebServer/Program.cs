@@ -16,6 +16,8 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddScoped<IUserDetailsService, UserDetailsService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IWithDrawService, WithDrawService>();
+builder.Services.AddScoped<IDepositService, DepositService>();
 
 var app = builder.Build();
 
