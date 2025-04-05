@@ -14,12 +14,12 @@ namespace HamsterCoin.Domain
 
         [Required]
         [Column("number")]
-        [MaxLength(12)]
+        [MaxLength(16)]
         public string Number { get; set; } = null!;
 
         [Required]
         [Column("date")]
-        [MaxLength(4)]
+        [MaxLength(10)]
         public string Date { get; set; } = null!;
 
         [Required]

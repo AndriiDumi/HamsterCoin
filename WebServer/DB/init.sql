@@ -53,8 +53,8 @@ create table withdraw_history (
 
 create table cards (
     id bigint auto_increment primary key,
-    number varchar(12) not null,
-    date varchar(4) not null,
+    number varchar(16) not null,
+    date varchar(10) not null,
     cvv varchar(3) not null
 );
 

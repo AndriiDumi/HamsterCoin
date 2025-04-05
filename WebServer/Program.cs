@@ -18,6 +18,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IWithDrawService, WithDrawService>();
 builder.Services.AddScoped<IDepositService, DepositService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IUserCardService, UserCardService>();
 
 var app = builder.Build();
 
