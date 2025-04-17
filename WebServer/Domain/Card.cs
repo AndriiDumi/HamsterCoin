@@ -19,7 +19,7 @@ namespace HamsterCoin.Domain
 
         [Required]
         [Column("date")]
-        [MaxLength(10)]
+        [MaxLength(5)]
         public string Date { get; set; } = null!;
 
         [Required]

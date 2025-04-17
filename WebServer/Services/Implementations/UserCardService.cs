@@ -22,7 +22,7 @@ namespace HamsterCoin.Services.Implementations
                 CardId = card.Id
             };
 
-            await _dbContext.UserCards.AddAsync(userCard);
+            _dbContext.UserCards.Add(userCard);
             await _dbContext.SaveChangesAsync();
         }
 
