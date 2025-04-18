@@ -1,4 +1,4 @@
-using HamsterCoin.Domain;
+using HamsterCoin.OperateException;
 using HamsterCoin.Extensions;
 using HamsterCoin.Services.Implementations;
 using HamsterCoin.Services.Interfaces;
@@ -28,7 +28,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapHamsterCoinEndpoints();
 
 app.MapGet("/", () => "Hello World!");
