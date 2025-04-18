@@ -6,6 +6,10 @@ namespace HamsterCoin.Domain
    [Table("user_cards")]
    public class UserCard
    {
+      [Key]
+      [Required]
+      [Column("id")]
+      public long id{get;set;}
       [Required]
       [ForeignKey(nameof(User))]
       [Column("user_id")]
