@@ -2,6 +2,7 @@ using HamsterCoin.Database;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
 using Microsoft.EntityFrameworkCore;
+using HamsterCoin.OperateException;
 
 namespace HamsterCoin.Services.Implementations
 {
@@ -20,7 +21,7 @@ namespace HamsterCoin.Services.Implementations
             var existingUser = await _dbContext.Users.FindAsync(id);
             if (existingUser == null)
             {
-                throw new KeyNotFoundException($"User with ID {id} not found.");
+                throw new NotFoundException($"User with ID {id} not found.");
             }
 
             _dbContext.Entry(existingUser).CurrentValues.SetValues(newEntity);
@@ -30,6 +31,7 @@ namespace HamsterCoin.Services.Implementations
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _dbContext.Users.ToListAsync();
+
         }
     }
 }
