@@ -1,4 +1,4 @@
-using HamsterCoin.Domain;
+using HamsterCoin.Auth;
 using HamsterCoin.Extensions;
 using HamsterCoin.Services.Implementations;
 using HamsterCoin.Services.Interfaces;
@@ -18,6 +18,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IWithDrawService, WithDrawService>();
 builder.Services.AddScoped<IDepositService, DepositService>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
 
 var app = builder.Build();
 
@@ -28,7 +30,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapHamsterCoinEndpoints();
-
-app.MapGet("/", () => "Hello World!");
 
 app.Run();

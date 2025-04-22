@@ -11,7 +11,7 @@ namespace HamsterCoin.Services.Implementations
 
         public async Task CreateAsync(User user)
         {
-            await _dbContext.Users.AddAsync(user);
+            _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
         }
 

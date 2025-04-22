@@ -26,7 +26,7 @@ namespace HamsterCoin.Endpoints
                 return Results.Ok();
             });
 
-            routes.MapGet("/{UserId}", async (long UserId, [FromServices] IWithDrawService withDrawService) =>
+            routeGroupBuilder.MapGet("/{UserId}", async (long UserId, [FromServices] IWithDrawService withDrawService) =>
             {
                 List<WithdrawHistory> history;
                
