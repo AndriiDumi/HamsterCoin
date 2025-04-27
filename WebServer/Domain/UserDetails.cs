@@ -29,7 +29,7 @@ namespace HamsterCoin.Domain
         [Required]
         [Column("promocode")]
         [MaxLength(50)]
-        public string Promocode { get; set; }
+        public string? Promocode { get; set; }
 
         [Column("balance")]
         public decimal Balance { get; set; }

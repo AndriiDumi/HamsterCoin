@@ -31,6 +31,4 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapHamsterCoinEndpoints();
 
-app.MapGet("/", () => "Hello World!");
-
 app.Run();
