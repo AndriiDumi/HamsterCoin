@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Mapping;
-using System.IdentityModel.Tokens.Jwt;
 using HamsterCoin.Auth;
+using HamsterCoin.Security;
 
 namespace HamsterCoin.Endpoints
 {
@@ -11,7 +11,7 @@ namespace HamsterCoin.Endpoints
     {
         public static void UserEndpoints(this IEndpointRouteBuilder routes)
         {
-            var routeGroupBuilder = routes.MapGroup("/users"); //.AddFluentValidationAutoValidation();
+            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization(); //.AddFluentValidationAutoValidation();
 
             routeGroupBuilder.MapGet("/", async ([FromServices] IUserService userService) =>
             {
@@ -27,19 +27,20 @@ namespace HamsterCoin.Endpoints
                 var user = request.FromRequest();
                 await userService.CreateAsync(user);
 
-                var token = JwtTokenGenerator.GenerateToken(user.Id, config["Jwt:Key"]);
+                var token = JwtTokenGenerator.GenerateToken(user.Id, config["Jwt:Key"]!);
 
                 return Results.Ok(token);
-            });
+            }).AllowAnonymous();
 
             routes.MapPost("/validate-jwt", async (IConfiguration config ,[FromBody] string receivedJWT) =>
             {
-                bool isValid = JwtValidator.ValidateJWT(receivedJWT, config["Jwt:Key"]); 
+                bool isValid = JwtValidator.ValidateJWT(receivedJWT, config["Jwt:Key"]!); 
                      // secret key should be more secure than that
                 return isValid ? Results.Ok() : Results.Unauthorized();
             });
 
-            routes.MapPost("/login", async ([FromBody] UserRequest userRequest, 
+            routes.MapPost("/login", async (IConfiguration config,
+                [FromBody] UserRequest userRequest, 
                 [FromServices] IAuthenticationService authenticationService) =>
             {
                 try
@@ -48,9 +49,10 @@ namespace HamsterCoin.Endpoints
                     user = await authenticationService.AuthenticateByUser(user);
                     if (user == null) return Results.Unauthorized();
 
-                    UserResponse userResponse = user.ToResponse();
+                    //UserResponse userResponse = user.ToResponse();
 
-                    return Results.Ok(userResponse);
+                    var token = JwtTokenGenerator.GenerateToken(user.Id, config["Jwt:Key"]!);
+                    return Results.Ok(new { token });
                 }
                 catch (Exception ex)
                 { 

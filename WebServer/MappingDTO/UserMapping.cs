@@ -6,12 +6,19 @@ namespace HamsterCoin.Mapping
     {
         public string Mail { get; set; }
         public string Password { get; set; }
+        public string Nickname { get; set; }
+        public string? Promocode { get; set; }
+        public DateTime BirthDate { get; set; }
     }
 
     public class UserResponse
     {
+        public long Id { get; set; }
         public string Mail { get; set; }
-        public string Password { get; set; }
+        public string Nickname { get; set; }
+        public string? Promocode { get; set; }
+        public decimal Balance { get; set; }
+        public DateTime BirthDate { get; set; }
     }
 
     public static class UserMappingExtensions
@@ -20,8 +27,12 @@ namespace HamsterCoin.Mapping
         {
             return new UserResponse
             {
+                Id = user.Id,
                 Mail = user.Mail,
-                Password = user.Password
+                Nickname = user.Nickname,
+                Promocode = user.Promocode,
+                Balance = user.Balance,
+                BirthDate = user.BirthDate
             };
         }
 
@@ -30,7 +41,10 @@ namespace HamsterCoin.Mapping
             return new User
             {
                 Mail = user.Mail,
-                Password = user.Password
+                Password = user.Password,
+                Nickname = user.Nickname,
+                Promocode = user.Promocode,
+                BirthDate = user.BirthDate
             };
         }
     }
