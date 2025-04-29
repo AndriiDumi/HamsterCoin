@@ -11,7 +11,7 @@ namespace HamsterCoin.Endpoints
     {
         public static void UserEndpoints(this IEndpointRouteBuilder routes)
         {
-            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization(); //.AddFluentValidationAutoValidation();
+            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization().WithTags("UserEndpoints");; //.AddFluentValidationAutoValidation();
 
             routeGroupBuilder.MapGet("/", async ([FromServices] IUserService userService) =>
             {
@@ -25,17 +25,8 @@ namespace HamsterCoin.Endpoints
                 var user = request.FromRequest();
                 await userService.CreateAsync(user);
 
-                var token = JwtTokenGenerator.GenerateToken(user.Id, config["Jwt:Key"]!, config);
-
-                return Results.Ok(token);
+                return Results.Ok();
             }).AllowAnonymous();
-
-            routes.MapPost("/validate-jwt", async (IConfiguration config ,[FromBody] string receivedJWT) =>
-            {
-                bool isValid = JwtValidator.ValidateJWT(receivedJWT, config["Jwt:Key"]!); 
-                     // secret key should be more secure than that
-                return isValid ? Results.Ok() : Results.Unauthorized();
-            });
 
             routes.MapPost("/login", async (IConfiguration config,
                 [FromBody] UserRequest userRequest, 
@@ -75,7 +66,7 @@ namespace HamsterCoin.Endpoints
 
                 await authenticationService.SaveRefreshTokenAsync(newRefreshToken);
 
-                 return Results.Ok(new
+                return Results.Ok(new
                 {
                     accessToken = newAccessToken,
                     refreshToken = newRefreshToken.Token
