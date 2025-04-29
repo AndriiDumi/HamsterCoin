@@ -7,7 +7,6 @@ namespace HamsterCoin.Database
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : DbContext(options)
     {
         public required DbSet<User> Users { get; set; }
-        public required DbSet<UserDetails> UserDetails { get; set; }
         public required DbSet<Game> Games { get; set; }
         public required DbSet<DepositHistory> DepHistory { get; set; }
         public required DbSet<WithdrawHistory> WithdrawHistory { get; set; }
@@ -17,7 +16,6 @@ namespace HamsterCoin.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new UserDetailsConfiguration());
             modelBuilder.ApplyConfiguration(new DepositHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new WithdrawHistoryConfiguration());
             modelBuilder.ApplyConfiguration(new UserCardConfiguration());

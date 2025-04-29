@@ -7,7 +7,6 @@ namespace HamsterCoin.Domain
     [Table("users")]
     public class User
     {
-
         [Key]
         [Column("id")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,5 +23,20 @@ namespace HamsterCoin.Domain
         [MaxLength(255)]
         public string Password { get; set; }
 
+        [Required]
+        [Column("nickname")]
+        [MaxLength(50)]
+        public string Nickname { get; set; }
+
+        [Required]
+        [Column("promocode")]
+        [MaxLength(50)]
+        public string? Promocode { get; set; }
+
+        [Column("balance")]
+        public decimal Balance { get; set; }
+
+        [Column("birth_date")]
+        public DateTime BirthDate { get; set; }
     }
 }

@@ -3,16 +3,18 @@ using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
 using Microsoft.EntityFrameworkCore;
 using HamsterCoin.OperateException;
+using HamsterCoin.Security;
 
 namespace HamsterCoin.Services.Implementations
 {
-    public class UserService(ApplicationDbContext dbContext) : IUserService
+    public class UserService(ApplicationDbContext dbContext, IPasswordEncoder passwordEncoder) : IUserService
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
 
         public async Task CreateAsync(User user)
         {
-            await _dbContext.Users.AddAsync(user);
+            user.Password = passwordEncoder.Encode(user.Password);
+            _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
         }
 
