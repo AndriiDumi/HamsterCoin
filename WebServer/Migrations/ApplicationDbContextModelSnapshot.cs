@@ -119,37 +119,17 @@ namespace WebServer.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(65,30)")
-                        .HasColumnName("balance");
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("birth_date");
-
                     b.Property<string>("Mail")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
                         .HasColumnName("mail");
 
-                    b.Property<string>("Nickname")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("nickname");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("password");
-
-                    b.Property<string>("Promocode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("promocode");
 
                     b.HasKey("Id");
 
@@ -158,12 +138,12 @@ namespace WebServer.Migrations
 
             modelBuilder.Entity("HamsterCoin.Domain.UserCard", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<long>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnName("id");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("id"));
 
                     b.Property<long?>("CardId")
                         .IsRequired()
@@ -174,13 +154,53 @@ namespace WebServer.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.HasIndex("CardId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("user_cards");
+                });
+
+            modelBuilder.Entity("HamsterCoin.Domain.UserDetails", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(65,30)")
+                        .HasColumnName("balance");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("birth_date");
+
+                    b.Property<string>("Nickname")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("nickname");
+
+                    b.Property<string>("Promocode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("promocode");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("user_details");
                 });
 
             modelBuilder.Entity("HamsterCoin.Domain.WithdrawHistory", b =>
@@ -237,6 +257,17 @@ namespace WebServer.Migrations
                         .IsRequired();
 
                     b.Navigation("Card");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("HamsterCoin.Domain.UserDetails", b =>
+                {
+                    b.HasOne("HamsterCoin.Domain.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

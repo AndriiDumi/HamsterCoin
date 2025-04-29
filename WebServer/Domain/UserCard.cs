@@ -9,8 +9,7 @@ namespace HamsterCoin.Domain
       [Key]
       [Required]
       [Column("id")]
-      public long Id{get;set;}
-
+      public long id{get;set;}
       [Required]
       [ForeignKey(nameof(User))]
       [Column("user_id")]
