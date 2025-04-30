@@ -488,6 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1942325397}
   - component: {fileID: 1942325396}
+  - component: {fileID: 1942325398}
   m_Layer: 0
   m_Name: GameObject (2)
   m_TagString: Untagged
@@ -522,6 +523,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1942325398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942325395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de157f3889022c4eab668b6d6edc544, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &56973619910458860
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -763,8 +776,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.05847168, y: -0.20080566}
+  m_SizeDelta: {x: 5.1449, y: 4.9617}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845121296317652492
 MonoBehaviour:
@@ -799,7 +812,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HAMASTER CASINO
+  m_Text: HAMSTER CASINO
 --- !u!222 &2043116650113043805
 CanvasRenderer:
   m_ObjectHideFlags: 0
