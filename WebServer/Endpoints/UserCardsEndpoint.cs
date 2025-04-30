@@ -22,9 +22,14 @@ namespace HamsterCoin.Endpoints
                 await userCard.CreateAsync(card.UserId, card.Number);
             });
 
-            routeGroupBuilder.MapDelete("/{id}", async (string NumberCard,ICardService userCardService) =>
+            routeGroupBuilder.MapDelete("/{id}", async (string NumberCard, ICardService userCardService) =>
             {
                 await userCardService.DeleteCard(NumberCard);
+            });
+
+            routeGroupBuilder.MapGet("/{userId}", async (long userId, ICardService userCardService) =>
+            {
+                return Results.Ok(await userCardService.GetCard(userId));
             });
         }
     }
