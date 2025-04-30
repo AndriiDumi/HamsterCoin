@@ -4,22 +4,29 @@ using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
 {
-    // Кнопка для переходу до наступної сцени
     public Button continueButton;
-
-    // Назва сцени наступного кроку
+    public Button backButton;  // Опціонально
     public string nextSceneName;
+    public string previousSceneName; // Опціонально
 
     void Start()
     {
-        // Підключення функції до кнопки
-        continueButton.onClick.AddListener(OnContinueClick);
+        if (continueButton != null)
+            continueButton.onClick.AddListener(OnContinueClick);
+
+        if (backButton != null && !string.IsNullOrEmpty(previousSceneName))
+            backButton.onClick.AddListener(OnBackClick);
     }
 
-    // Функція для переходу на наступну сцену
     public void OnContinueClick()
     {
-        // Завантаження сцени
-        SceneManager.LoadScene(nextSceneName);
+        if (!string.IsNullOrEmpty(nextSceneName))
+            SceneManager.LoadScene(nextSceneName);
+    }
+
+    public void OnBackClick()
+    {
+        if (!string.IsNullOrEmpty(previousSceneName))
+            SceneManager.LoadScene(previousSceneName);
     }
 }
