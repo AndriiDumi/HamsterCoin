@@ -26,5 +26,20 @@ namespace HamsterCoin.Services.Implementations
             }
         }
 
+        public async Task<Card> GetCard(long userId)
+        {
+            var card = await _dbContext.UserCards
+                .AsNoTracking()
+                .Where(c => c.UserId == userId)
+                .Select(c => new Card
+                {
+                    Number = c.Card.Number,
+                    Date = c.Card.Date,
+                    Cvv = c.Card.Cvv
+                })
+                .FirstOrDefaultAsync();
+            return card;
+        }
+
     }
 }

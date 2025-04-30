@@ -6,5 +6,6 @@ namespace HamsterCoin.Services.Interfaces
         Task CreateAsync(Card deposit);
 
         Task DeleteCard(string NumberCard);
+        Task<Card> GetCard(long userId);
     }
 }
