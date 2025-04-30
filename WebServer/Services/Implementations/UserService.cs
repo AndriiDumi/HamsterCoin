@@ -2,16 +2,19 @@ using HamsterCoin.Database;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
 using Microsoft.EntityFrameworkCore;
+using HamsterCoin.OperateException;
+using HamsterCoin.Security;
 
 namespace HamsterCoin.Services.Implementations
 {
-    public class UserService(ApplicationDbContext dbContext) : IUserService
+    public class UserService(ApplicationDbContext dbContext, IPasswordEncoder passwordEncoder) : IUserService
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
 
         public async Task CreateAsync(User user)
         {
-            await _dbContext.Users.AddAsync(user);
+            user.Password = passwordEncoder.Encode(user.Password);
+            _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
         }
 
@@ -20,7 +23,7 @@ namespace HamsterCoin.Services.Implementations
             var existingUser = await _dbContext.Users.FindAsync(id);
             if (existingUser == null)
             {
-                throw new KeyNotFoundException($"User with ID {id} not found.");
+                throw new NotFoundException($"User with ID {id} not found.");
             }
 
             _dbContext.Entry(existingUser).CurrentValues.SetValues(newEntity);
@@ -30,6 +33,7 @@ namespace HamsterCoin.Services.Implementations
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _dbContext.Users.ToListAsync();
+
         }
     }
 }

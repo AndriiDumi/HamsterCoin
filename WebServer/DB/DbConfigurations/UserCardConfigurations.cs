@@ -8,7 +8,7 @@ namespace HamsterCoin.DbConfiguration
     {
         public void Configure(EntityTypeBuilder<UserCard> builder)
         {
-            builder.HasNoKey();
+            builder.HasKey(k => k.Id);
             builder
                 .HasOne(d => d.User)
                 .WithMany()
