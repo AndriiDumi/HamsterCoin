@@ -29,12 +29,12 @@ namespace HamsterCoin.Endpoints
             }).AllowAnonymous();
 
             routes.MapPost("/login", async (IConfiguration config,
-                [FromBody] UserRequest userRequest, 
+                [FromBody] AuthenticationRequest authenticationRequest, 
                 [FromServices] IAuthenticationService authenticationService) =>
             {
                 try
                 {
-                    var user = userRequest.FromRequest();
+                    var user = authenticationRequest.FromRequest();
                     user = await authenticationService.AuthenticateByUser(user);
                     if (user == null) return Results.Unauthorized();
 
