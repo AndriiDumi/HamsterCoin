@@ -37,6 +37,6 @@ namespace HamsterCoin.Domain
         public decimal Balance { get; set; }
 
         [Column("birth_date")]
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
     }
 }

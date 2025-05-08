@@ -8,7 +8,7 @@ namespace HamsterCoin.Mapping
         public string Password { get; set; }
         public string Nickname { get; set; }
         public string? Promocode { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
     }
 
     public class UserResponse
