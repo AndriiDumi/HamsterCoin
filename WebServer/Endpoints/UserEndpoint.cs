@@ -11,7 +11,7 @@ namespace HamsterCoin.Endpoints
     {
         public static void UserEndpoints(this IEndpointRouteBuilder routes)
         {
-            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization().WithTags("UserEndpoints");; //.AddFluentValidationAutoValidation();
+            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization().WithTags("UserEndpoints"); //.AddFluentValidationAutoValidation();
 
             routeGroupBuilder.MapGet("/", async ([FromServices] IUserService userService) =>
             {
