@@ -18,7 +18,7 @@ namespace HamsterCoin.Mapping
         public string Nickname { get; set; }
         public string? Promocode { get; set; }
         public decimal Balance { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
     }
 
     public static class UserMappingExtensions
