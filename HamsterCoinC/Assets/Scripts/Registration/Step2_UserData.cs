@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using System.Globalization;
 
 public class Step2_UserData : MonoBehaviour
 {
@@ -8,18 +10,15 @@ public class Step2_UserData : MonoBehaviour
     public TMP_InputField passwordInput;
     public TMP_InputField confirmPasswordInput;
     public TMP_InputField promoCodeInput;
-    public TMP_InputField dateOfBirthInput;
+    public TMP_InputField dateOfBirthInput; // очікуємо формат yyyy-MM-dd
     public Button continueButton;
     public Button backButton;
     public TMP_Text messageText;
 
-    private RegistrationManager regManager;
-
     void Start()
     {
-        regManager = RegistrationManager.Instance;
         continueButton.onClick.AddListener(SaveAndContinue);
-        backButton.onClick.AddListener(() => regManager.ShowStep1());
+        backButton.onClick.AddListener(BackToStep1);
     }
 
     void SaveAndContinue()
@@ -28,9 +27,10 @@ public class Step2_UserData : MonoBehaviour
         string password = passwordInput.text;
         string confirmPassword = confirmPasswordInput.text;
         string promoCode = promoCodeInput.text.Trim();
-        string birthDate = dateOfBirthInput.text.Trim();
+        string birthDateString = dateOfBirthInput.text.Trim();
 
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(birthDate))
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) ||
+            string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(birthDateString))
         {
             messageText.text = "Заповніть усі поля!";
             return;
@@ -48,7 +48,43 @@ public class Step2_UserData : MonoBehaviour
             return;
         }
 
-        regManager.SaveUserData(username, password, promoCode, birthDate);
-        regManager.ShowStep3();
+        string[] formats = { "yyyy-MM-dd", "yyyy/MM/dd", "yyyy.MM.dd" };
+
+        if (!DateTime.TryParseExact(birthDateString.Trim(), formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime birthDate))
+        {
+            messageText.text = $"Невірний формат дати: '{birthDateString}'. Приклад: 2000-01-01";
+            return;
+        }
+
+
+        string formattedBirthDate = birthDate.ToString("yyyy-MM-dd"); // ✅ Swagger-сумісний формат
+        string email = username;
+
+        StartCoroutine(APIController.RegisterUser(
+            email,
+            password,
+            username,
+            promoCode,
+            formattedBirthDate,
+            onSuccess: (response) =>
+            {
+                messageText.text = "Реєстрація успішна!";
+                PlayerPrefs.SetString("userEmail", email);
+                PlayerPrefs.SetString("username", username);
+                PlayerPrefs.SetString("password", password);
+                PlayerPrefs.SetString("promoCode", promoCode);
+                PlayerPrefs.SetString("birthDate", formattedBirthDate);
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Step3");
+            },
+            onError: (error) =>
+            {
+                messageText.text = "Помилка: " + error;
+            }
+        ));
+    }
+
+    void BackToStep1()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Step1");
     }
 }
