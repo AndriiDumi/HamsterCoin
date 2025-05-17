@@ -74,7 +74,7 @@ public class Step2_UserData : MonoBehaviour
                 PlayerPrefs.SetString("password", password);
                 PlayerPrefs.SetString("promoCode", promoCode);
                 PlayerPrefs.SetString("birthDate", formattedBirthDate);
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Step3");
+                UnityEngine.SceneManagement.SceneManager.LoadScene("step1");
             },
             onError: (error) =>
             {
@@ -85,6 +85,6 @@ public class Step2_UserData : MonoBehaviour
 
     void BackToStep1()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Step1");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("step1"); // 🔄 Оновлено тут
     }
 }

@@ -20,9 +20,16 @@ public class LoginPanel : MonoBehaviour
 
     void Start()
     {
-        loginButton.onClick.AddListener(OnLogin);
-        registerButton.onClick.AddListener(OnRegister);
+        string accessToken = PlayerPrefs.GetString("accessToken", "");
+        string refreshToken = PlayerPrefs.GetString("refreshToken", "");
+
+        if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
+        {
+            Debug.Log("Знайдені токени. Вхід без авторизації.");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+        }
     }
+
 
     void OnLogin()
     {
@@ -49,7 +56,7 @@ public class LoginPanel : MonoBehaviour
                     PlayerPrefs.SetString("userEmail", email);
 
                     messageText.text = "Успішний вхід!";
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+                    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
                 }
                 catch (Exception ex)
                 {
