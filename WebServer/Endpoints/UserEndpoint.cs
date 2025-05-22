@@ -43,7 +43,14 @@ namespace HamsterCoin.Endpoints
 
                     await authenticationService.SaveRefreshTokenAsync(refresh_Token);
 
-                    return Results.Ok(new { accessToken = access_Token, refreshToken =  refresh_Token.Token });
+                    return Results.Ok(new LoginDto
+                    {
+                        Nick = user.Nickname,
+                        balance = user.Balance,
+                        email = user.Mail,
+                        accessToken = access_Token,
+                        refreshToken = refresh_Token.Token
+                    });
                 }
                 catch (Exception ex)
                 { 
