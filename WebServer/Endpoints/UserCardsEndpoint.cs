@@ -1,5 +1,5 @@
 using HamsterCoin.Services.Interfaces;
-using HamsterCoin.Mapping;
+using HamsterCoin.DTO;
 using HamsterCoin.Domain;
 
 namespace HamsterCoin.Endpoints

@@ -1,7 +1,7 @@
 using HamsterCoin.Domain;
 
-namespace HamsterCoin.Mapping
-{ 
+namespace HamsterCoin.DTO
+{
     public class AuthenticationRequest
     {
         public string Mail { get; set; } = null!;

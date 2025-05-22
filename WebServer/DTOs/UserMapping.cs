@@ -1,12 +1,12 @@
 using HamsterCoin.Domain;
 
-namespace HamsterCoin.Mapping
+namespace HamsterCoin.DTO
 {
     public class UserRequest
     {
-        public string Mail { get; set; }
-        public string Password { get; set; }
-        public string Nickname { get; set; }
+        public required string Mail { get; set; }
+        public required string Password { get; set; }
+        public required string Nickname { get; set; }
         public string? Promocode { get; set; }
         public DateOnly BirthDate { get; set; }
     }
@@ -14,8 +14,8 @@ namespace HamsterCoin.Mapping
     public class UserResponse
     {
         public long Id { get; set; }
-        public string Mail { get; set; }
-        public string Nickname { get; set; }
+        public required string Mail { get; set; }
+        public required string Nickname { get; set; }
         public string? Promocode { get; set; }
         public decimal Balance { get; set; }
         public DateOnly BirthDate { get; set; }
