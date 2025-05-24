@@ -58,6 +58,10 @@ public class AutoLogin : MonoBehaviour
 
             PlayerPrefs.SetString("accessToken", loginData.accessToken);
             PlayerPrefs.SetString("refreshToken", loginData.refreshToken);
+            PlayerPrefs.SetString("userEmail", loginData.email);
+            PlayerPrefs.SetString("nick", loginData.nick);
+            PlayerPrefs.SetInt("balance", loginData.balance);
+            PlayerPrefs.Save();
 
             SceneManager.LoadScene("MainScene");
         }
@@ -67,6 +71,7 @@ public class AutoLogin : MonoBehaviour
             SceneManager.LoadScene("Step1"); // повертаємось на логін
         }
     }
+
 
     [System.Serializable]
     public class RefreshRequest

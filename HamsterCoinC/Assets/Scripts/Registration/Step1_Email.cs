@@ -14,12 +14,16 @@ public class LoginPanel : MonoBehaviour
     [Serializable]
     public class LoginResponse
     {
+        public string nick;
+        public int balance;
+        public string email;
         public string accessToken;
         public string refreshToken;
     }
 
     void Start()
     {
+        // Якщо токени вже є — автоматичний вхід
         string accessToken = PlayerPrefs.GetString("accessToken", "");
         string refreshToken = PlayerPrefs.GetString("refreshToken", "");
 
@@ -28,8 +32,11 @@ public class LoginPanel : MonoBehaviour
             Debug.Log("Знайдені токени. Вхід без авторизації.");
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
-    }
 
+        // Прив’язка кнопок
+        loginButton.onClick.AddListener(OnLogin);
+        registerButton.onClick.AddListener(OnRegister);
+    }
 
     void OnLogin()
     {
@@ -45,15 +52,21 @@ public class LoginPanel : MonoBehaviour
         StartCoroutine(APIController.LoginUser(
             mail: email,
             password: password,
-            onSuccess: (response) => {
+            onSuccess: (response) =>
+            {
                 Debug.Log("Login response: " + response);
 
                 try
                 {
                     LoginResponse loginData = JsonUtility.FromJson<LoginResponse>(response);
+
                     PlayerPrefs.SetString("accessToken", loginData.accessToken);
                     PlayerPrefs.SetString("refreshToken", loginData.refreshToken);
-                    PlayerPrefs.SetString("userEmail", email);
+                    PlayerPrefs.SetString("userEmail", loginData.email);
+                    PlayerPrefs.SetString("nick", loginData.nick);
+                    PlayerPrefs.SetInt("balance", loginData.balance);
+
+                    PlayerPrefs.Save();
 
                     messageText.text = "Успішний вхід!";
                     UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
@@ -63,7 +76,8 @@ public class LoginPanel : MonoBehaviour
                     messageText.text = "Помилка обробки відповіді: " + ex.Message;
                 }
             },
-            onError: (error) => {
+            onError: (error) =>
+            {
                 messageText.text = "Помилка входу: " + error;
             }
         ));

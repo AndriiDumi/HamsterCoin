@@ -24,7 +24,15 @@ public class Cell : MonoBehaviour
         cellImage.sprite = defaultSprite;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClick);
+        button.interactable = true;
+        hasMine = false;
     }
+
+    public void Disable()
+    {
+        button.interactable = false;
+    }
+
 
     void OnClick()
     {
