@@ -30,7 +30,7 @@ public class GridManager : MonoBehaviour
             {
                 GameObject obj = Instantiate(cellPrefab, gridParent);
                 Cell cell = obj.GetComponent<Cell>();
-                cell.Init(x, y, gameManager); // Передаємо gameManager
+                cell.Init(x, y, gameManager);
                 grid[x, y] = cell;
             }
         }
@@ -89,4 +89,21 @@ public class GridManager : MonoBehaviour
 
         GenerateGrid();
     }
+
+    public void DisableAllCells()
+    {
+        if (grid == null) return;
+
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (grid[x, y] != null)
+                {
+                    grid[x, y].Disable();
+                }
+            }
+        }
+    }
+
 }
