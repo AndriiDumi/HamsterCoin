@@ -10,6 +10,7 @@ namespace HamsterCoin.Extensions
             app.WithDrawEndpoints();
             app.DepositEndpoints();
             app.UserCardsEndpoints();
+            app.UserPromocodeEndpoint();
         }
     }
 }

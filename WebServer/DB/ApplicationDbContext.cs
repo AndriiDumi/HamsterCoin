@@ -13,6 +13,7 @@ namespace HamsterCoin.Database
         public required DbSet<Card> Cards { get; set; }
         public required DbSet<UserCard> UserCards { get; set; }
         public required DbSet<RefreshToken> RefreshTokens { get; set; }
+        public required DbSet<Promocode> Promocodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
