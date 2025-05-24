@@ -27,12 +27,7 @@ namespace HamsterCoin.Domain
         [Column("nickname")]
         [MaxLength(50)]
         public string Nickname { get; set; }
-
-        [Required]
-        [Column("promocode")]
-        [MaxLength(50)]
-        public string? Promocode { get; set; }
-
+        
         [Column("balance")]
         public decimal Balance { get; set; }
 
