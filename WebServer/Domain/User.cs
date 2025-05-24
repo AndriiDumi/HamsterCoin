@@ -13,10 +13,10 @@ namespace HamsterCoin.Domain
         public long Id { get; set; }
 
         [Required]
-        [Column("mail")]
+        [Column("Email")]
         [EmailAddress]
         [MaxLength(100)]
-        public string Mail { get; set; }
+        public string Email { get; set; }
 
         [Required]
         [Column("password")]

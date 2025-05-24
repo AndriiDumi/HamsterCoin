@@ -28,7 +28,7 @@ namespace HamsterCoin.DTO
             return new UserResponse
             {
                 Id = user.Id,
-                Mail = user.Mail,
+                Mail = user.Email,
                 Nickname = user.Nickname,
                 Promocode = user.Promocode,
                 Balance = user.Balance,
@@ -40,7 +40,7 @@ namespace HamsterCoin.DTO
         {
             return new User
             {
-                Mail = user.Mail,
+                Email = user.Mail,
                 Password = user.Password,
                 Nickname = user.Nickname,
                 Promocode = user.Promocode,
