@@ -26,12 +26,12 @@ namespace HamsterCoin.Endpoints
             });
             routeGroupBuilder.MapPost("/add", async ([FromBody] PromocodeDTO promocode, [FromServices] IPromocodeService promocodeService) =>
             {
-                await promocodeService.AddAsync(new Promocode{UserId = promocode.UserId,promocode = promocode.promocode});
+                await promocodeService.AddAsync(new Promocode { UserId = promocode.UserId, promocode = promocode.promocode });
                 return Results.Ok();
             });
             routeGroupBuilder.MapPatch("/update", async ([FromBody] PromocodeDTO newPromocode, [FromServices] IPromocodeService promocodeService) =>
            {
-               var result = await promocodeService.UpdateAsync(new Promocode{UserId = newPromocode.UserId,promocode = newPromocode.promocode});
+               var result = await promocodeService.UpdateAsync(new Promocode { UserId = newPromocode.UserId, promocode = newPromocode.promocode });
                if (!result) throw new NotFoundException("Not found user");
                Results.Ok();
            });
