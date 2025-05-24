@@ -30,10 +30,18 @@ namespace HamsterCoin.Services.Implementations
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task UpdateBalanceByUserIdAsync(decimal balance, long userId)
+        {
+            var existingUser = await _dbContext.Users.FindAsync(userId);
+            if (existingUser == null) throw new Exception($"User with ID {userId} not found");
+
+            existingUser.Balance = balance;
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _dbContext.Users.ToListAsync();
-
         }
     }
 }

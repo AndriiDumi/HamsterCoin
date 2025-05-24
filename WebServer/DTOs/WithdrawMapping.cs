@@ -1,8 +1,5 @@
 
-using Microsoft.EntityFrameworkCore;
-using HamsterCoin.Domain;
-
-namespace HamsterCoin.Mapping
+namespace HamsterCoin.DTO
 {
     public class WithdrawDTO
     {

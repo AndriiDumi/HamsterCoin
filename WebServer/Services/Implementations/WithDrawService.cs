@@ -1,7 +1,6 @@
 using HamsterCoin.Database;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
-using HamsterCoin.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 namespace HamsterCoin.Services.Implementations

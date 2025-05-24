@@ -1,9 +1,8 @@
 //using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
-using HamsterCoin.Mapping;
+using HamsterCoin.DTO;
 using HamsterCoin.Auth;
-using HamsterCoin.Security;
 
 namespace HamsterCoin.Endpoints
 {
@@ -20,6 +19,7 @@ namespace HamsterCoin.Endpoints
                 return Results.Ok(users);
             });
 
+
             routeGroupBuilder.MapPost("/registration", async (IConfiguration config, [FromBody] UserRequest request, [FromServices] IUserService userService) =>
             {
                 var user = request.FromRequest();
@@ -29,7 +29,7 @@ namespace HamsterCoin.Endpoints
             }).AllowAnonymous();
 
             routes.MapPost("/login", async (IConfiguration config,
-                [FromBody] AuthenticationRequest authenticationRequest, 
+                [FromBody] AuthenticationRequest authenticationRequest,
                 [FromServices] IAuthenticationService authenticationService) =>
             {
                 try
@@ -53,13 +53,13 @@ namespace HamsterCoin.Endpoints
                     });
                 }
                 catch (Exception ex)
-                { 
+                {
                     return Results.BadRequest(ex.Message);
                 }
             });
 
-            routes.MapPost("/refresh-token", async ([FromBody] string refreshToken, 
-                IConfiguration config, 
+            routes.MapPost("/refresh-token", async ([FromBody] string refreshToken,
+                IConfiguration config,
                 [FromServices] IAuthenticationService authenticationService) =>
             {
                 var oldtoken = await authenticationService.FindRefreshTokenByTokenAsync(refreshToken);
@@ -80,16 +80,29 @@ namespace HamsterCoin.Endpoints
                 });
             });
 
-            routes.MapPost("/logout", async 
-            ( 
-                [FromBody] string refreshToken, 
-                IConfiguration config, 
+            routes.MapPost("/logout", async
+            (
+                [FromBody] string refreshToken,
+                IConfiguration config,
                 [FromServices] IAuthenticationService authenticationService
             ) =>
             {
                 await authenticationService.LogoutAsync(refreshToken);
                 return Results.Ok("Logged out successfully.");
             });
+            
+            routeGroupBuilder.MapPut("/refresh-balance", async (
+                [FromBody] RefreshBalanceRequest refreshBalanceRequest,
+                [FromServices] IUserService userService,
+                [FromServices] IJwtService jwtService) =>
+            {
+                long userId = jwtService.GetUserId(refreshBalanceRequest.JWTtoken);
+
+                await userService.UpdateBalanceByUserIdAsync(refreshBalanceRequest.Balance, userId);
+                return Results.Ok();
+            });
+
+
         }
     }
 }

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IUserCardService, UserCardService>();
 builder.Services.AddScoped<IPasswordEncoder, BcryptPasswordEncoder>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 var app = builder.Build();
 

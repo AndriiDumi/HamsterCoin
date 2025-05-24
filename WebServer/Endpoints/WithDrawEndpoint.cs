@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
-using HamsterCoin.Mapping;
+using HamsterCoin.DTO;
 
 namespace HamsterCoin.Endpoints
 {
