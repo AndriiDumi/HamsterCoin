@@ -7,7 +7,6 @@ namespace HamsterCoin.DTO
         public required string Mail { get; set; }
         public required string Password { get; set; }
         public required string Nickname { get; set; }
-        public string? Promocode { get; set; }
         public DateOnly BirthDate { get; set; }
     }
 
@@ -28,9 +27,8 @@ namespace HamsterCoin.DTO
             return new UserResponse
             {
                 Id = user.Id,
-                Mail = user.Mail,
+                Mail = user.Email,
                 Nickname = user.Nickname,
-                Promocode = user.Promocode,
                 Balance = user.Balance,
                 BirthDate = user.BirthDate
             };
@@ -40,10 +38,9 @@ namespace HamsterCoin.DTO
         {
             return new User
             {
-                Mail = user.Mail,
+                Email = user.Mail,
                 Password = user.Password,
                 Nickname = user.Nickname,
-                Promocode = user.Promocode,
                 BirthDate = user.BirthDate
             };
         }

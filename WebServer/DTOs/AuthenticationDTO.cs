@@ -14,7 +14,7 @@ namespace HamsterCoin.DTO
         {
             return new User
             {
-                Mail = user.Mail,
+                Email = user.Mail,
                 Password = user.Password
             };
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.DTO;
 using HamsterCoin.Auth;
+using HamsterCoin.Mapping;
 
 namespace HamsterCoin.Endpoints
 {
@@ -47,7 +48,7 @@ namespace HamsterCoin.Endpoints
                     {
                         Nick = user.Nickname,
                         balance = user.Balance,
-                        email = user.Mail,
+                        email = user.Email,
                         accessToken = access_Token,
                         refreshToken = refresh_Token.Token
                     });

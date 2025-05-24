@@ -6,9 +6,10 @@ namespace HamsterCoin.DbConfiguration
 {
         public class UserConfiguration : IEntityTypeConfiguration<User>
         {
-            public void Configure(EntityTypeBuilder<User> builder)
-            {
-                builder.HasKey(x => x.Id);
-            }
+        public void Configure(EntityTypeBuilder<User> builder)
+        {
+            builder.HasKey(x => x.Id);
+            builder.HasIndex(i => i.Email).IsUnique();   
+        }
         }
 }
