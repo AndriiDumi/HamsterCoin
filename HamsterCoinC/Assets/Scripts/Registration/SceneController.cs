@@ -1,32 +1,66 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class SceneController : MonoBehaviour
 {
-    public Button continueButton;
-    public Button backButton;  // Опціонально
-    public string nextSceneName;
-    public string previousSceneName; // Опціонально
+    [Header("Scene Names")]
+    public string nextScene;
+    public string previousScene = "MainMenu"; // За замовчуванням
+
+    [Header("Buttons")]
+    public Button continueBtn;
+    public Button backBtn;
+    public Button quitBtn;
+
+    [Header("Animation")]
+    public Animator screenFade;
+    public float fadeTime = 0.5f;
 
     void Start()
     {
-        if (continueButton != null)
-            continueButton.onClick.AddListener(OnContinueClick);
+        // Підписуємо кнопки
+        if (continueBtn != null)
+            continueBtn.onClick.AddListener(() => LoadScene(nextScene));
 
-        if (backButton != null && !string.IsNullOrEmpty(previousSceneName))
-            backButton.onClick.AddListener(OnBackClick);
+        if (backBtn != null)
+            backBtn.onClick.AddListener(() => LoadScene(previousScene));
+
+        if (quitBtn != null)
+            quitBtn.onClick.AddListener(QuitGame);
     }
 
-    public void OnContinueClick()
+    public void LoadScene(string sceneName)
     {
-        if (!string.IsNullOrEmpty(nextSceneName))
-            SceneManager.LoadScene(nextSceneName);
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("Scene name is empty!");
+            return;
+        }
+
+        StartCoroutine(LoadSceneRoutine(sceneName));
     }
 
-    public void OnBackClick()
+    private IEnumerator LoadSceneRoutine(string sceneName)
     {
-        if (!string.IsNullOrEmpty(previousSceneName))
-            SceneManager.LoadScene(previousSceneName);
+        // Запускаємо анімацію затемнення
+        if (screenFade != null)
+        {
+            screenFade.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(fadeTime);
+        }
+
+        // Завантажуємо сцену
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }
