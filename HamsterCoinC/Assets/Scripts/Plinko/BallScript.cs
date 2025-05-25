@@ -11,7 +11,7 @@ public class BallScript : MonoBehaviour
 
     [SerializeField] private float thrust = 1f;
 
-    private Rigidbody2D rigidbody2D;
+    private new Rigidbody2D rigidbody2D;
 
     private string lastHit = "";
     private float betAmount = 0f;
