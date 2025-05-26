@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class MinesGameManager : MonoBehaviour
 {
@@ -9,7 +10,6 @@ public class MinesGameManager : MonoBehaviour
 
     [Header("UI Елементи")]
     public TMP_Text statusText;
-    public TMP_Text balanceText;
     public TMP_Text betAmountText;
     public TMP_InputField betInput;
     public Button takeMoneyButton;
@@ -21,61 +21,74 @@ public class MinesGameManager : MonoBehaviour
     private bool gameOver = true;
     private bool gameStarted = false;
 
-    private int balance = 1000;
     private int currentBet = 0;
 
     private void Start()
     {
-        gridManager.gameManager = this;
+        if (gridManager != null)
+            gridManager.gameManager = this;
 
         takeMoneyButton.onClick.AddListener(TakeMoney);
         startGameButton.onClick.AddListener(StartGame);
 
         takeMoneyButton.gameObject.SetActive(false);
 
-        UpdateBalanceUI();
         betAmountText.text = "Депозит: 0";
         statusText.text = "Введіть ставку та натисніть Почати";
 
-        // Забороняємо кліки на клітинки до старту гри
-        gridManager.DisableAllCells();
+        if (gridManager != null)
+            gridManager.DisableAllCells();
     }
 
     public void StartGame()
     {
+        string token = PlayerPrefs.GetString("jwtToken");
+        if (string.IsNullOrEmpty(token))
+        {
+            Debug.LogError("? JWT токен не знайдено. Перехід на сцену входу.");
+            SceneManager.LoadScene("step1");
+            return;
+        }
+
         if (!int.TryParse(betInput.text, out currentBet) || currentBet <= 0)
         {
-            statusText.text = "Введіть коректну ставку!";
+            statusText.text = "? Введіть коректну ставку!";
             return;
         }
 
-        if (currentBet > balance)
+        if (BalanceManager.Instance == null)
         {
-            statusText.text = "Ставка не може перевищувати баланс!";
+            Debug.LogError("? BalanceManager.Instance не знайдено!");
             return;
         }
 
-        balance -= currentBet;
-        UpdateBalanceUI();
+        if (currentBet > BalanceManager.Instance.GetBalance())
+        {
+            statusText.text = "? Ставка не може перевищувати баланс!";
+            return;
+        }
+
+        // Знімаємо ставку
+        BalanceManager.Instance.SubtractBalance(currentBet);
 
         betAmountText.text = $"Депозит: {currentBet}";
-
         gameOver = false;
         gameStarted = true;
         statusText.text = "";
         takeMoneyButton.gameObject.SetActive(true);
 
-        gridManager.RegenerateGrid();
+        if (gridManager != null)
+            gridManager.RegenerateGrid();
     }
 
     public void CellClicked(Cell cell)
     {
-        if (gameOver || !gameStarted) return;
+        if (gameOver || !gameStarted || cell == null) return;
 
         if (cell.hasMine)
         {
             currentBet = 0;
-            betAmountText.text = $"Депозит: {currentBet}";
+            betAmountText.text = "Депозит: 0";
             GameOver(false);
         }
         else
@@ -89,16 +102,21 @@ public class MinesGameManager : MonoBehaviour
     {
         if (gameOver || !gameStarted) return;
 
-        balance += currentBet;
-        currentBet = 0;
-        UpdateBalanceUI();
+        if (BalanceManager.Instance != null)
+        {
+            BalanceManager.Instance.AddBalance(currentBet);
+        }
 
-        statusText.text = "Ви забрали гроші!";
+        currentBet = 0;
+        betAmountText.text = "Депозит: 0";
+        statusText.text = "? Ви забрали гроші!";
         takeMoneyButton.gameObject.SetActive(false);
+
         gameOver = true;
         gameStarted = false;
 
-        gridManager.DisableAllCells();
+        if (gridManager != null)
+            gridManager.DisableAllCells();
     }
 
     void GameOver(bool win)
@@ -108,20 +126,11 @@ public class MinesGameManager : MonoBehaviour
 
         takeMoneyButton.gameObject.SetActive(false);
 
-        if (win)
-        {
-            statusText.text = "Ви виграли!";
-        }
-        else
-        {
-            statusText.text = "Програш! Ви втратили ставку.";
-        }
+        statusText.text = win
+            ? "?? Ви виграли!"
+            : "?? Програш! Ви втратили ставку.";
 
-        gridManager.RevealAllCells();
-    }
-
-    void UpdateBalanceUI()
-    {
-        balanceText.text = $"Баланс: {balance}";
+        if (gridManager != null)
+            gridManager.RevealAllCells();
     }
 }

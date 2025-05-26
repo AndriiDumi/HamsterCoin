@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.DTO;
 using HamsterCoin.Auth;
+using HamsterCoin.Mapping;
 
 namespace HamsterCoin.Endpoints
 {

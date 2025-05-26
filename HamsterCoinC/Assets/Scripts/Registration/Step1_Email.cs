@@ -23,8 +23,7 @@ public class LoginPanel : MonoBehaviour
 
     void Start()
     {
-        // Якщо токени вже є — автоматичний вхід
-        string accessToken = PlayerPrefs.GetString("accessToken", "");
+        string accessToken = PlayerPrefs.GetString("jwtToken", "");
         string refreshToken = PlayerPrefs.GetString("refreshToken", "");
 
         if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
@@ -33,7 +32,6 @@ public class LoginPanel : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
 
-        // Прив’язка кнопок
         loginButton.onClick.AddListener(OnLogin);
         registerButton.onClick.AddListener(OnRegister);
     }
@@ -60,12 +58,11 @@ public class LoginPanel : MonoBehaviour
                 {
                     LoginResponse loginData = JsonUtility.FromJson<LoginResponse>(response);
 
-                    PlayerPrefs.SetString("accessToken", loginData.accessToken);
+                    PlayerPrefs.SetString("jwtToken", loginData.accessToken);
                     PlayerPrefs.SetString("refreshToken", loginData.refreshToken);
                     PlayerPrefs.SetString("userEmail", loginData.email);
                     PlayerPrefs.SetString("nick", loginData.nick);
                     PlayerPrefs.SetInt("balance", loginData.balance);
-
                     PlayerPrefs.Save();
 
                     messageText.text = "Успішний вхід!";
