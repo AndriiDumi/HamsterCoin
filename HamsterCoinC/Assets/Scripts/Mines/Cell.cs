@@ -21,18 +21,17 @@ public class Cell : MonoBehaviour
         this.y = y;
         this.gameManager = gm;
 
+        hasMine = false;
         cellImage.sprite = defaultSprite;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClick);
         button.interactable = true;
-        hasMine = false;
     }
 
     public void Disable()
     {
         button.interactable = false;
     }
-
 
     void OnClick()
     {
@@ -46,6 +45,8 @@ public class Cell : MonoBehaviour
         }
 
         button.interactable = false;
-        gameManager.CellClicked(this);
+
+        if (gameManager != null)
+            gameManager.CellClicked(this);
     }
 }
