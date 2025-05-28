@@ -75,6 +75,7 @@ public class BalanceManager : MonoBehaviour
         request.uploadHandler = new UploadHandlerRaw(jsonBytes);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", "Bearer " + jwtToken);
 
         yield return request.SendWebRequest();
 
