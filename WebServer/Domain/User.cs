@@ -16,17 +16,17 @@ namespace HamsterCoin.Domain
         [Column("Email")]
         [EmailAddress]
         [MaxLength(100)]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required]
         [Column("password")]
         [MaxLength(255)]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [Required]
         [Column("nickname")]
         [MaxLength(50)]
-        public string Nickname { get; set; }
+        public string Nickname { get; set; } = null!;
         
         [Column("balance")]
         public decimal Balance { get; set; }

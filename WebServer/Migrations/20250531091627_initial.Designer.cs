@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250524145024_changeFiledName")]
-    partial class changeFiledName
+    [Migration("20250531091627_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -113,6 +113,29 @@ namespace WebServer.Migrations
                     b.ToTable("games");
                 });
 
+            modelBuilder.Entity("HamsterCoin.Domain.Promocode", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("promocode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("promocode");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Promocodes");
+                });
+
             modelBuilder.Entity("HamsterCoin.Domain.RefreshToken", b =>
                 {
                     b.Property<long>("Id")
@@ -178,12 +201,6 @@ namespace WebServer.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)")
                         .HasColumnName("password");
-
-                    b.Property<string>("Promocode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("promocode");
 
                     b.HasKey("Id");
 
