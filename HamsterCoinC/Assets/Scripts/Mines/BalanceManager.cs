@@ -6,6 +6,9 @@ public class BalanceManager : MonoBehaviour
 
     private const string BalanceKey = "TestBalance";
 
+    public delegate void BalanceChanged(float newBalance);
+    public static event BalanceChanged OnBalanceChanged;
+
     private void Awake()
     {
         if (Instance == null)
@@ -13,9 +16,15 @@ public class BalanceManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            if (!PlayerPrefs.HasKey(BalanceKey))
+            float savedBalance = PlayerPrefs.GetFloat(BalanceKey, -1f);
+            if (savedBalance < 0f)
             {
-                SetBalance(1000); // Стартовий баланс для тесту
+                Debug.Log("[BalanceManager] Баланс не знайдено — встановлюємо стартовий.");
+                SetBalance(1000f);
+            }
+            else
+            {
+                Debug.Log("[BalanceManager] Збережений баланс: " + savedBalance);
             }
         }
         else
@@ -24,36 +33,38 @@ public class BalanceManager : MonoBehaviour
         }
     }
 
-    public int GetBalance()
+    public float GetBalance()
     {
-        return PlayerPrefs.GetInt(BalanceKey, 0);
+        return PlayerPrefs.GetFloat(BalanceKey, 0f);
     }
 
-    public void SetBalance(int amount)
+    public void SetBalance(float amount)
     {
-        PlayerPrefs.SetInt(BalanceKey, amount);
+        float clampedAmount = Mathf.Max(0f, amount);
+        PlayerPrefs.SetFloat(BalanceKey, clampedAmount);
         PlayerPrefs.Save();
+        OnBalanceChanged?.Invoke(clampedAmount);
     }
 
-    public void AddBalance(int amount)
+    public void AddBalance(float amount)
     {
         SetBalance(GetBalance() + amount);
     }
 
-    public void SubtractBalance(int amount)
+    public void SubtractBalance(float amount)
     {
-        SetBalance(Mathf.Max(0, GetBalance() - amount));
+        SetBalance(GetBalance() - amount);
     }
 
     public void ClearBalance()
     {
         PlayerPrefs.DeleteKey(BalanceKey);
         PlayerPrefs.Save();
+        OnBalanceChanged?.Invoke(0f);
     }
 
     public void ResetBalance()
     {
-        SetBalance(1000); // або інше стартове значення
+        SetBalance(1000f);
     }
-
 }

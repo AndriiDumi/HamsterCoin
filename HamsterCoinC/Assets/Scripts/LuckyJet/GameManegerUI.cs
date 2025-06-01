@@ -7,6 +7,9 @@ public class UIManager : MonoBehaviour
     public TMP_Text coefficientText;
     public TMP_Text timerText;
     public TMP_Text betValueText;
+    public TMP_Text balanceText;
+    public TMP_Text profitText; // <-- Додано
+
     public TMP_InputField betInput;
     public Button betButton;
     public Button cashOutButton;
@@ -20,7 +23,7 @@ public class UIManager : MonoBehaviour
     {
         betButton.onClick.AddListener(PlaceBet);
         cashOutButton.onClick.AddListener(CashOut);
-        cashOutButton.interactable = false;
+        UpdateUI();
     }
 
     void Update()
@@ -30,36 +33,43 @@ public class UIManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        coefficientText.text = "Коефіцієнт: " + roundManager.coefficient.ToString("F2");
+        coefficientText.text = $"x{roundManager.coefficient:F2}";
+        balanceText.text = $"{BalanceManager.Instance.GetBalance():F2}";
 
-        if (!roundManager.roundActive)
+
+        float betAmount = betManager.GetRawBetAmount();
+
+        if (roundManager.IsCooldownPhase())
         {
-            timerText.text = "Час до наступного раунду: " + roundManager.GetCooldownTime().ToString("F2");
-            betValueText.text = "Ваша ставка: 0";
+            timerText.text = $"Новий раунд через: {roundManager.GetCooldownTime():F1} сек";
+            betValueText.text = $"{betManager.GetRawBetAmount():F2}";
+
+            betButton.gameObject.SetActive(true);
+            cashOutButton.gameObject.SetActive(false);
+        }
+        else if (roundManager.roundActive)
+        {
+            timerText.text = "";
+
+            float profit = betAmount * roundManager.coefficient;
+            betValueText.text = $"{profit:F2}";
+
+            betButton.gameObject.SetActive(false);
+            cashOutButton.gameObject.SetActive(true);
         }
         else
         {
-            if (roundManager.betTimeActive)
-            {
-                // Показуємо таймер для ставок
-                timerText.text = "Час на ставку: " + roundManager.betTime.ToString("F2");
-                betValueText.text = "Ваша ставка: " + (betManager.GetCurrentBetValue() > 0 ? betManager.GetCurrentBetValue().ToString("F2") : "0");
-            }
-            else
-            {
-                // Показуємо основний таймер гри
-                betValueText.text = "Ваша ставка: " + betManager.GetCurrentBetValue().ToString("F2");
-            }
-        }
+            timerText.text = "Очікування...";
+            betValueText.text = "";
 
-        cashOutButton.interactable = roundManager.roundActive && !roundManager.betTimeActive;
-        betButton.interactable = roundManager.roundActive && roundManager.betTimeActive; // Дозволити ставити ставки тільки під час часу на ставку
+            betButton.gameObject.SetActive(false);
+            cashOutButton.gameObject.SetActive(false);
+        }
     }
+
 
     public void PlaceBet()
     {
-        if (!roundManager.roundActive || !roundManager.betTimeActive) return;
-
         if (float.TryParse(betInput.text, out currentBet) && currentBet > 0)
         {
             betManager.PlaceBet(currentBet);
