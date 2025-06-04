@@ -9,7 +9,6 @@ public class APIController : MonoBehaviour
     private static string registerUrl = "http://localhost:7777/users/registration";
     private static string loginUrl = "http://localhost:7777/login";
 
-    // 📩 Реєстрація
     public static IEnumerator RegisterUser(string mail, string password, string nickname, string promocode, string birthDate, Action<string> onSuccess, Action<string> onError)
     {
         var userData = new RegisterRequest
@@ -18,13 +17,12 @@ public class APIController : MonoBehaviour
             password = password,
             nickname = nickname,
             promocode = promocode,
-            birthDate = birthDate // передається як рядок
+            birthDate = birthDate
         };
 
         yield return SendRequest(registerUrl, userData, onSuccess, onError);
     }
 
-    // 🔐 Авторизація
     public static IEnumerator LoginUser(string mail, string password, Action<string> onSuccess, Action<string> onError)
     {
         var loginData = new LoginRequest
@@ -36,7 +34,6 @@ public class APIController : MonoBehaviour
         yield return SendRequest(loginUrl, loginData, onSuccess, onError);
     }
 
-    // 📦 Універсальний метод запиту
     private static IEnumerator SendRequest<T>(string url, T data, Action<string> onSuccess, Action<string> onError)
     {
         string jsonData = JsonUtility.ToJson(data);
@@ -66,7 +63,7 @@ public class APIController : MonoBehaviour
         public string password;
         public string nickname;
         public string promocode;
-        public string birthDate; // важливо: рядок!
+        public string birthDate;
     }
 
     [Serializable]

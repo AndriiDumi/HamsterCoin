@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+
 
 public class Cell : MonoBehaviour
 {
@@ -21,11 +23,11 @@ public class Cell : MonoBehaviour
         this.y = y;
         this.gameManager = gm;
 
+        hasMine = false;
         cellImage.sprite = defaultSprite;
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(OnClick);
         button.interactable = true;
-        hasMine = false;
     }
 
     public void Disable()
@@ -33,19 +35,51 @@ public class Cell : MonoBehaviour
         button.interactable = false;
     }
 
-
-    void OnClick()
+    public void OnClick()
     {
-        if (hasMine)
-        {
-            cellImage.sprite = bombSprite;
-        }
-        else
-        {
-            cellImage.sprite = safeSprite;
-        }
+        if (!button.interactable) return;
 
         button.interactable = false;
-        gameManager.CellClicked(this);
+
+        // Запускаємо анімацію
+        StartCoroutine(AnimateReveal());
+
+        if (gameManager != null)
+            gameManager.CellClicked(this);
+    }
+
+    IEnumerator AnimateReveal()
+    {
+        float duration = 0.3f;
+        float timer = 0f;
+
+        // Початкове зменшення старої картинки
+        Vector3 originalScale = cellImage.rectTransform.localScale;
+
+        while (timer < duration)
+        {
+            float t = timer / duration;
+            cellImage.rectTransform.localScale = Vector3.Lerp(originalScale, Vector3.zero, t);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Гарантуємо повне зникнення
+        cellImage.rectTransform.localScale = Vector3.zero;
+
+        // Зміна картинки
+        cellImage.sprite = hasMine ? bombSprite : safeSprite;
+
+        // Анімація появи нової картинки
+        timer = 0f;
+        while (timer < duration)
+        {
+            float t = timer / duration;
+            cellImage.rectTransform.localScale = Vector3.Lerp(Vector3.zero, originalScale, t);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        cellImage.rectTransform.localScale = originalScale;
     }
 }

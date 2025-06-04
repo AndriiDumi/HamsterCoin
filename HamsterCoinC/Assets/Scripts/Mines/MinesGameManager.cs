@@ -1,104 +1,143 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class MinesGameManager : MonoBehaviour
 {
+    [Header("Кнопки ставок")]
+    public Button maxBetButton;
+    public Button minBetButton;
+    public Button multiplyBetButton;
+    public Button divideBetButton;
+
     [Header("Менеджер сітки")]
     public GridManager gridManager;
 
     [Header("UI Елементи")]
     public TMP_Text statusText;
     public TMP_Text balanceText;
-    public TMP_Text betAmountText;
+    public TMP_Text currentBetText;
     public TMP_InputField betInput;
-    public Button takeMoneyButton;
     public Button startGameButton;
+    public Button takeMoneyButton;
 
     [Header("Налаштування гри")]
     public float multiplier = 1.2f;
 
     private bool gameOver = true;
     private bool gameStarted = false;
-
-    private int balance = 1000;
-    private int currentBet = 0;
+    private float currentBet = 0f;
 
     private void Start()
     {
-        gridManager.gameManager = this;
+        if (gridManager != null)
+            gridManager.gameManager = this;
 
-        takeMoneyButton.onClick.AddListener(TakeMoney);
         startGameButton.onClick.AddListener(StartGame);
+        takeMoneyButton.onClick.AddListener(TakeMoney);
+        maxBetButton.onClick.AddListener(SetMaxBet);
+        minBetButton.onClick.AddListener(SetMinBet);
+        multiplyBetButton.onClick.AddListener(MultiplyBet);
+        divideBetButton.onClick.AddListener(DivideBet);
 
+        startGameButton.gameObject.SetActive(true);
         takeMoneyButton.gameObject.SetActive(false);
 
-        UpdateBalanceUI();
-        betAmountText.text = "Депозит: 0";
-        statusText.text = "Введіть ставку та натисніть Почати";
+        if (gridManager != null)
+            gridManager.DisableAllCells();
 
-        // Забороняємо кліки на клітинки до старту гри
-        gridManager.DisableAllCells();
+        StartCoroutine(DelayedUIUpdate());
+    }
+
+    private IEnumerator DelayedUIUpdate()
+    {
+        yield return new WaitForSeconds(0.1f);
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        if (BalanceManager.Instance == null)
+        {
+            Debug.LogError("? BalanceManager.Instance не ініціалізований.");
+            return;
+        }
+
+        float balance = BalanceManager.Instance.GetBalance();
+        balanceText.text = balance.ToString("F2");
+        currentBetText.text = currentBet.ToString("F2");
+
+        if (!gameStarted)
+            statusText.text = "Введіть ставку та натисніть Почати";
     }
 
     public void StartGame()
     {
-        if (!int.TryParse(betInput.text, out currentBet) || currentBet <= 0)
+        if (!float.TryParse(betInput.text.Replace(',', '.'), out currentBet) || currentBet <= 0f)
         {
-            statusText.text = "Введіть коректну ставку!";
+            statusText.text = "? Введіть коректну ставку!";
             return;
         }
+
+        float balance = BalanceManager.Instance.GetBalance();
 
         if (currentBet > balance)
         {
-            statusText.text = "Ставка не може перевищувати баланс!";
+            statusText.text = "? Ставка перевищує баланс!";
             return;
         }
 
-        balance -= currentBet;
-        UpdateBalanceUI();
-
-        betAmountText.text = $"Депозит: {currentBet}";
+        BalanceManager.Instance.SubtractBalance(currentBet);
 
         gameOver = false;
         gameStarted = true;
         statusText.text = "";
+
+        startGameButton.gameObject.SetActive(false);
         takeMoneyButton.gameObject.SetActive(true);
 
-        gridManager.RegenerateGrid();
+        if (gridManager != null)
+            gridManager.RegenerateGrid();
+
+        UpdateUI();
     }
 
     public void CellClicked(Cell cell)
     {
-        if (gameOver || !gameStarted) return;
+        if (gameOver || !gameStarted || cell == null) return;
 
         if (cell.hasMine)
         {
-            currentBet = 0;
-            betAmountText.text = $"Депозит: {currentBet}";
+            currentBet = 0f;
             GameOver(false);
         }
         else
         {
-            currentBet = Mathf.CeilToInt(currentBet * multiplier);
-            betAmountText.text = $"Депозит: {currentBet}";
+            currentBet = Mathf.Ceil(currentBet * multiplier * 100f) / 100f; // округлення до 0.01
         }
+
+        UpdateUI();
     }
 
     public void TakeMoney()
     {
         if (gameOver || !gameStarted) return;
 
-        balance += currentBet;
-        currentBet = 0;
-        UpdateBalanceUI();
+        BalanceManager.Instance.AddBalance(currentBet);
 
-        statusText.text = "Ви забрали гроші!";
-        takeMoneyButton.gameObject.SetActive(false);
+        currentBet = 0f;
+        statusText.text = "? Ви забрали гроші!";
         gameOver = true;
         gameStarted = false;
 
-        gridManager.DisableAllCells();
+        takeMoneyButton.gameObject.SetActive(false);
+        startGameButton.gameObject.SetActive(true);
+
+        if (gridManager != null)
+            gridManager.DisableAllCells();
+
+        UpdateUI();
     }
 
     void GameOver(bool win)
@@ -107,21 +146,42 @@ public class MinesGameManager : MonoBehaviour
         gameStarted = false;
 
         takeMoneyButton.gameObject.SetActive(false);
+        startGameButton.gameObject.SetActive(true);
 
-        if (win)
-        {
-            statusText.text = "Ви виграли!";
-        }
-        else
-        {
-            statusText.text = "Програш! Ви втратили ставку.";
-        }
+        statusText.text = win ? "?? Ви виграли!" : "?? Програш! Ви втратили ставку.";
 
-        gridManager.RevealAllCells();
+        if (gridManager != null)
+            gridManager.RevealAllCells();
+
+        UpdateUI();
     }
 
-    void UpdateBalanceUI()
+    private void SetMaxBet()
     {
-        balanceText.text = $"Баланс: {balance}";
+        float maxBet = BalanceManager.Instance.GetBalance();
+        betInput.text = maxBet.ToString("F2");
+    }
+
+    private void SetMinBet()
+    {
+        betInput.text = "0.01";
+    }
+
+    private void MultiplyBet()
+    {
+        if (float.TryParse(betInput.text.Replace(',', '.'), out float bet))
+        {
+            float newBet = Mathf.Min(bet * 2f, BalanceManager.Instance.GetBalance());
+            betInput.text = newBet.ToString("F2");
+        }
+    }
+
+    private void DivideBet()
+    {
+        if (float.TryParse(betInput.text.Replace(',', '.'), out float bet))
+        {
+            float newBet = Mathf.Max(0.01f, bet / 2f);
+            betInput.text = newBet.ToString("F2");
+        }
     }
 }

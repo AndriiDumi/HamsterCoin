@@ -5,7 +5,11 @@ public class GridManager : MonoBehaviour
 {
     public GameObject cellPrefab;
     public Transform gridParent;
-    public int width = 5, height = 5, mineCount = 5;
+    public int width = 5;
+    public int height = 5;
+
+    [HideInInspector]
+    public int mineCount = 5;  // Тепер кількість мін можна змінювати зверху
 
     private Cell[,] grid;
     public MinesGameManager gameManager;
@@ -105,5 +109,4 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-
 }
