@@ -69,4 +69,25 @@ public class BetManager : MonoBehaviour
     {
         canBet = false;
     }
+
+    // Нові методи — лише розраховують значення, не ставлять ставку!
+    public float GetMaxBetAmount()
+    {
+        return BalanceManager.Instance.GetBalance();
+    }
+
+    public float GetMinBetAmount()
+    {
+        return 1f; // або інше значення, яке ти вважаєш мінімальним
+    }
+
+    public float GetDoubleBetAmount(float currentInput)
+    {
+        return Mathf.Min(currentInput * 2f, BalanceManager.Instance.GetBalance());
+    }
+
+    public float GetHalveBetAmount(float currentInput)
+    {
+        return Mathf.Max(1f, currentInput / 2f);
+    }
 }
