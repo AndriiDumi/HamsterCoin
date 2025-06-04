@@ -5748,8 +5748,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextScene: MainMenu
   previousScene: plinko
-  continueBtn: {fileID: 0}
-  backBtn: {fileID: 947221123}
+  continueBtn: {fileID: 947221123}
+  backBtn: {fileID: 0}
   quitBtn: {fileID: 0}
   screenFade: {fileID: 0}
   fadeTime: 0.5

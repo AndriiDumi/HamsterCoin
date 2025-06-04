@@ -913,7 +913,7 @@ MonoBehaviour:
   nextScene: MainMenu
   previousScene: mines
   continueBtn: {fileID: 1552484566}
-  backBtn: {fileID: 1552484566}
+  backBtn: {fileID: 0}
   quitBtn: {fileID: 0}
   screenFade: {fileID: 0}
   fadeTime: 0.5

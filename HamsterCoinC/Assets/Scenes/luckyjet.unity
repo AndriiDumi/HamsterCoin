@@ -2083,8 +2083,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nextScene: MainMenu
   previousScene: luckyjet
-  continueBtn: {fileID: 0}
-  backBtn: {fileID: 2004128672}
+  continueBtn: {fileID: 2004128672}
+  backBtn: {fileID: 0}
   quitBtn: {fileID: 0}
   screenFade: {fileID: 0}
   fadeTime: 0.5
