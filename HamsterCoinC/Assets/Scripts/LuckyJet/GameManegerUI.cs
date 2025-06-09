@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
         betButton.onClick.AddListener(PlaceBet);
         cashOutButton.onClick.AddListener(CashOut);
 
-        resetBalanceButton.onClick.AddListener(() => BalanceManager.Instance.ResetBalance());
+   
 
         // Підключення нових кнопок
         maxBetButton.onClick.AddListener(MaxBet);
