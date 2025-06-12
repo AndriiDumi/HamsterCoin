@@ -53,3 +53,5 @@ HamsterCoinC/*.VC.db
 .idea/
 .vs/slnx.sqlite
 .vs/slnx.sqlite
+/MyApi.Tests/obj
+/MyApi.Tests/bin
