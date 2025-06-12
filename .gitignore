@@ -53,3 +53,9 @@ HamsterCoinC/*.VC.db
 .idea/
 .vs/slnx.sqlite
 .vs/slnx.sqlite
+
+#I beg you, delete the fucking project with the tests. 
+#I have no idea how to stop tracking these folders that have already been added 
+#to the remote repository on github. It's 10:53 PM 12.06.2025 and I want to sleep. - AndriiDumi
+/MyApi.Tests/obj
+/MyApi.Tests/bin
