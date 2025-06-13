@@ -1,1 +1,1 @@
-# HamsterCoin
+# Casino "HamsterCoin"
