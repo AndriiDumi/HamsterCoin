@@ -3716,23 +3716,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Vova\\.nuget\\packages\\": {},
+    "C:\\Users\\user\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Vova\\Documents\\GitHub\\HamsterCoin\\MyApi.Tests\\MyApi.Tests.csproj",
+      "projectUniqueName": "D:\\OneDrive\\Документи\\GitHub\\HamsterCoin\\MyApi.Tests\\MyApi.Tests.csproj",
       "projectName": "MyApi.Tests",
-      "projectPath": "C:\\Users\\Vova\\Documents\\GitHub\\HamsterCoin\\MyApi.Tests\\MyApi.Tests.csproj",
-      "packagesPath": "C:\\Users\\Vova\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Vova\\Documents\\GitHub\\HamsterCoin\\MyApi.Tests\\obj\\",
+      "projectPath": "D:\\OneDrive\\Документи\\GitHub\\HamsterCoin\\MyApi.Tests\\MyApi.Tests.csproj",
+      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+      "outputPath": "D:\\OneDrive\\Документи\\GitHub\\HamsterCoin\\MyApi.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Vova\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3741,15 +3741,14 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\Vova\\Documents\\GitHub\\HamsterCoin\\WebServer\\WebServer.csproj": {
-              "projectPath": "C:\\Users\\Vova\\Documents\\GitHub\\HamsterCoin\\WebServer\\WebServer.csproj"
+            "D:\\OneDrive\\Документи\\GitHub\\HamsterCoin\\WebServer\\WebServer.csproj": {
+              "projectPath": "D:\\OneDrive\\Документи\\GitHub\\HamsterCoin\\WebServer\\WebServer.csproj"
             }
           }
         }
@@ -3815,7 +3814,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

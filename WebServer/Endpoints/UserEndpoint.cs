@@ -19,6 +19,7 @@ namespace HamsterCoin.Endpoints
                 return Results.Ok(users);
             });
 
+
             routeGroupBuilder.MapPost("/registration", async (IConfiguration config, [FromBody] UserRequest request, [FromServices] IUserService userService) =>
             {
                 var user = request.FromRequest();
@@ -41,11 +42,6 @@ namespace HamsterCoin.Endpoints
                     var refresh_Token = JwtTokenGenerator.GenerateRefreshToken(user.Id, config["Jwt:Key"]!);
 
                     await authenticationService.SaveRefreshTokenAsync(refresh_Token);
-
-                    return Results.Ok(new { accessToken = access_Token, refreshToken =  refresh_Token.Token });
-                }
-                catch (Exception ex)
-                { 
 
                     return Results.Ok(new LoginDto
                     {
