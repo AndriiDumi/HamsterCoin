@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 using System;
 using System.Globalization;
 
@@ -10,7 +10,7 @@ public class Step2_UserData : MonoBehaviour
     public TMP_InputField passwordInput;
     public TMP_InputField confirmPasswordInput;
     public TMP_InputField promoCodeInput;
-    public TMP_InputField dateOfBirthInput; // формат yyyy-MM-dd
+    public TMP_InputField dateOfBirthInput; // очікуємо формат yyyy-MM-dd
     public Button continueButton;
     public Button backButton;
     public TMP_Text messageText;
@@ -56,8 +56,9 @@ public class Step2_UserData : MonoBehaviour
             return;
         }
 
-        string formattedBirthDate = birthDate.ToString("yyyy-MM-dd");
-        string email = username;  // якщо username — це email
+
+        string formattedBirthDate = birthDate.ToString("yyyy-MM-dd"); // ✅ Swagger-сумісний формат
+        string email = username;
 
         StartCoroutine(APIController.RegisterUser(
             email,
@@ -73,7 +74,6 @@ public class Step2_UserData : MonoBehaviour
                 PlayerPrefs.SetString("password", password);
                 PlayerPrefs.SetString("promoCode", promoCode);
                 PlayerPrefs.SetString("birthDate", formattedBirthDate);
-                PlayerPrefs.Save();
                 UnityEngine.SceneManagement.SceneManager.LoadScene("step1");
             },
             onError: (error) =>
@@ -85,6 +85,6 @@ public class Step2_UserData : MonoBehaviour
 
     void BackToStep1()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("step1");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("step1"); // 🔄 Оновлено тут
     }
 }

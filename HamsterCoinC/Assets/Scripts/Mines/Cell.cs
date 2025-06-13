@@ -70,7 +70,7 @@ public class Cell : MonoBehaviour
         // Зміна картинки
         cellImage.sprite = hasMine ? bombSprite : safeSprite;
 
-      
+        // Анімація появи нової картинки
         timer = 0f;
         while (timer < duration)
         {
