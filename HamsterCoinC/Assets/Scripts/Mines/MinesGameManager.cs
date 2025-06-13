@@ -29,18 +29,6 @@ public class MinesGameManager : MonoBehaviour
     private bool gameStarted = false;
     private float currentBet = 0f;
 
-    private void OnEnable()
-    {
-        if (BalanceManager.Instance != null)
-            BalanceManager.OnBalanceChanged += OnBalanceChanged;
-    }
-
-    private void OnDisable()
-    {
-        if (BalanceManager.Instance != null)
-            BalanceManager.OnBalanceChanged -= OnBalanceChanged;
-    }
-
     private void Start()
     {
         if (gridManager != null)
@@ -59,10 +47,6 @@ public class MinesGameManager : MonoBehaviour
         if (gridManager != null)
             gridManager.DisableAllCells();
 
-        // Оновити баланс із сервера при старті гри
-        if (BalanceManager.Instance != null)
-            BalanceManager.Instance.RefreshBalance();
-
         StartCoroutine(DelayedUIUpdate());
     }
 
@@ -72,16 +56,11 @@ public class MinesGameManager : MonoBehaviour
         UpdateUI();
     }
 
-    private void OnBalanceChanged(float newBalance)
-    {
-        UpdateUI();
-    }
-
     private void UpdateUI()
     {
         if (BalanceManager.Instance == null)
         {
-            Debug.LogError("BalanceManager.Instance не ініціалізований.");
+            Debug.LogError("? BalanceManager.Instance не ініціалізований.");
             return;
         }
 
@@ -97,7 +76,7 @@ public class MinesGameManager : MonoBehaviour
     {
         if (!float.TryParse(betInput.text.Replace(',', '.'), out currentBet) || currentBet <= 0f)
         {
-            statusText.text = "Введіть коректну ставку!";
+            statusText.text = "? Введіть коректну ставку!";
             return;
         }
 
@@ -105,7 +84,7 @@ public class MinesGameManager : MonoBehaviour
 
         if (currentBet > balance)
         {
-            statusText.text = "Ставка перевищує баланс!";
+            statusText.text = "? Ставка перевищує баланс!";
             return;
         }
 
@@ -148,7 +127,7 @@ public class MinesGameManager : MonoBehaviour
         BalanceManager.Instance.AddBalance(currentBet);
 
         currentBet = 0f;
-        statusText.text = "Ви забрали гроші!";
+        statusText.text = "? Ви забрали гроші!";
         gameOver = true;
         gameStarted = false;
 
@@ -169,7 +148,7 @@ public class MinesGameManager : MonoBehaviour
         takeMoneyButton.gameObject.SetActive(false);
         startGameButton.gameObject.SetActive(true);
 
-        statusText.text = win ? "Ви виграли!" : "Програш! Ви втратили ставку.";
+        statusText.text = win ? "?? Ви виграли!" : "?? Програш! Ви втратили ставку.";
 
         if (gridManager != null)
             gridManager.RevealAllCells();
@@ -179,11 +158,8 @@ public class MinesGameManager : MonoBehaviour
 
     private void SetMaxBet()
     {
-        if (BalanceManager.Instance != null)
-        {
-            float maxBet = BalanceManager.Instance.GetBalance();
-            betInput.text = maxBet.ToString("F2");
-        }
+        float maxBet = BalanceManager.Instance.GetBalance();
+        betInput.text = maxBet.ToString("F2");
     }
 
     private void SetMinBet()
@@ -193,7 +169,7 @@ public class MinesGameManager : MonoBehaviour
 
     private void MultiplyBet()
     {
-        if (float.TryParse(betInput.text.Replace(',', '.'), out float bet) && BalanceManager.Instance != null)
+        if (float.TryParse(betInput.text.Replace(',', '.'), out float bet))
         {
             float newBet = Mathf.Min(bet * 2f, BalanceManager.Instance.GetBalance());
             betInput.text = newBet.ToString("F2");

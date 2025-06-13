@@ -15,6 +15,7 @@ namespace HamsterCoin.Database
         public required DbSet<RefreshToken> RefreshTokens { get; set; }
         public required DbSet<Promocode> Promocodes { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfiguration());
