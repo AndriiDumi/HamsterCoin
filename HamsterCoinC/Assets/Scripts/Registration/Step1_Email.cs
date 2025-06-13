@@ -1,6 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.UI;
 using System;
 
 public class LoginPanel : MonoBehaviour
@@ -11,16 +11,6 @@ public class LoginPanel : MonoBehaviour
     public Button registerButton;
     public TMP_Text messageText;
 
-    [Serializable]
-    public class LoginResponse
-    {
-        public string nick;
-        public int balance;
-        public string email;
-        public string accessToken;
-        public string refreshToken;
-    }
-
     void Start()
     {
         string accessToken = PlayerPrefs.GetString("jwtToken", "");
@@ -28,7 +18,7 @@ public class LoginPanel : MonoBehaviour
 
         if (!string.IsNullOrEmpty(accessToken) && !string.IsNullOrEmpty(refreshToken))
         {
-            Debug.Log("Знайдені токени. Вхід без авторизації.");
+            Debug.Log("Токени знайдені, переходимо до MainMenu без логіну.");
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         }
 
@@ -50,31 +40,29 @@ public class LoginPanel : MonoBehaviour
         StartCoroutine(APIController.LoginUser(
             mail: email,
             password: password,
-            onSuccess: (response) =>
+            onSuccess: (accessToken, balance) =>
             {
-                Debug.Log("Login response: " + response);
+                Debug.Log("Успішний вхід. Токен: " + accessToken + " | Баланс: " + balance);
 
-                try
+                // Зберігаємо у PlayerPrefs
+                PlayerPrefs.SetString("jwtToken", accessToken);
+                PlayerPrefs.SetFloat("balance", balance);
+                PlayerPrefs.SetString("userEmail", email);
+                PlayerPrefs.Save();
+
+                // Передаємо у BalanceManager
+                if (BalanceManager.Instance != null)
                 {
-                    LoginResponse loginData = JsonUtility.FromJson<LoginResponse>(response);
-
-                    PlayerPrefs.SetString("jwtToken", loginData.accessToken);
-                    PlayerPrefs.SetString("refreshToken", loginData.refreshToken);
-                    PlayerPrefs.SetString("userEmail", loginData.email);
-                    PlayerPrefs.SetString("nick", loginData.nick);
-                    PlayerPrefs.SetInt("balance", loginData.balance);
-                    PlayerPrefs.Save();
-
-                    messageText.text = "Успішний вхід!";
-                    UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+                    BalanceManager.Instance.SetAccessToken(accessToken);
+                    BalanceManager.Instance.SetInitialBalance(balance);
                 }
-                catch (Exception ex)
-                {
-                    messageText.text = "Помилка обробки відповіді: " + ex.Message;
-                }
+
+                messageText.text = "Успішний вхід!";
+                UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
             },
             onError: (error) =>
             {
+                Debug.LogError("Помилка входу: " + error);
                 messageText.text = "Помилка входу: " + error;
             }
         ));

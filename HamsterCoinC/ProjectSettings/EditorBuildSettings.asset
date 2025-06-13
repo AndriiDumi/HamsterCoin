@@ -23,4 +23,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mines.unity
     guid: fd5f442d5e3106d44b92d65246ca5733
+  - enabled: 1
+    path: Assets/Scenes/Soon.unity
+    guid: 87a5c215ff570d74fae330e64e8e86e6
+  - enabled: 1
+    path: Assets/Scenes/luckyjet.unity
+    guid: 8d170f93299f3ec479b20c17777e2870
+  - enabled: 1
+    path: Assets/Scenes/plinko.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects: {}
