@@ -11,7 +11,7 @@ namespace HamsterCoin.Auth
         public async Task<User> AuthenticateByUser(User user)
         {
             var userFound = await dbContext.Set<User>()
-                .FirstOrDefaultAsync(u => u.Mail == user.Mail);
+                .FirstOrDefaultAsync(u => u.Email == user.Email);
 
             if (userFound == null || !passwordEncoder.Verify(user.Password, userFound.Password))
             {

@@ -8,12 +8,6 @@ namespace HamsterCoin.Services.Implementations
     {
         private readonly ApplicationDbContext _dbContext = dbContext;
 
-        public async Task CreateAsync(Game entity)
-        {
-            _dbContext.Games.Add(entity);
-            await _dbContext.SaveChangesAsync();
-        }
-
         public async Task UpdateAsync(long id, Game newEntity)
         {
             var oldEntity = await GetByIdAsync(id);
@@ -32,8 +26,6 @@ namespace HamsterCoin.Services.Implementations
         private void UpdateValues(Game oldEntity, Game newEntity)
         {
             oldEntity.Name = newEntity.Name;
-            oldEntity.IsMultiplayer = newEntity.IsMultiplayer;
-            oldEntity.CountPlayers = newEntity.CountPlayers;
         }
     }
 }

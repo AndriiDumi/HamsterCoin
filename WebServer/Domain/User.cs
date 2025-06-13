@@ -13,15 +13,15 @@ namespace HamsterCoin.Domain
         public long Id { get; set; }
 
         [Required]
-        [Column("mail")]
+        [Column("Email")]
         [EmailAddress]
         [MaxLength(100)]
-        public string Mail { get; set; }
+        public string Email { get; set; } = null!;
 
         [Required]
         [Column("password")]
         [MaxLength(255)]
-        public string Password { get; set; }
+        public string Password { get; set; } = null!;
 
         [Required]
         [Column("nickname")]
@@ -33,10 +33,12 @@ namespace HamsterCoin.Domain
         [MaxLength(50)]
         public string? Promocode { get; set; }
 
+        public string Nickname { get; set; } = null!;
+        
         [Column("balance")]
         public decimal Balance { get; set; }
 
         [Column("birth_date")]
-        public DateTime BirthDate { get; set; }
+        public DateOnly BirthDate { get; set; }
     }
 }

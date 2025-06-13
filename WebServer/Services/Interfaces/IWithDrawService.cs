@@ -1,5 +1,4 @@
 using HamsterCoin.Domain;
-using HamsterCoin.Mapping;
 
 namespace HamsterCoin.Services.Interfaces
 {

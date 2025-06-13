@@ -7,19 +7,16 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Запуск першого раунду
-        roundManager.StartRound();
+        roundManager.StartRound(); // Перший раунд
     }
 
-    // Оновлення UI
     public void UpdateUI()
     {
         uiManager.UpdateUI();
     }
 
-    // Початок нового раунду після завершення попереднього
     public void StartRound()
     {
-        roundManager.StartRound(); // Запуск нового раунду
+        roundManager.StartRound();
     }
 }

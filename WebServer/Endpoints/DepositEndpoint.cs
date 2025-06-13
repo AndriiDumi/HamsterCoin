@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
 using HamsterCoin.Domain;
-using HamsterCoin.Mapping;
 using System.Reflection.Metadata.Ecma335;
+using HamsterCoin.DTO;
+
 namespace HamsterCoin.Endpoints
 {
     public static class DepositEndpoint

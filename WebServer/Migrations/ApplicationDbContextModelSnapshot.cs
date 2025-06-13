@@ -110,6 +110,29 @@ namespace WebServer.Migrations
                     b.ToTable("games");
                 });
 
+            modelBuilder.Entity("HamsterCoin.Domain.Promocode", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("promocode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasColumnName("promocode");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Promocodes");
+                });
+
             modelBuilder.Entity("HamsterCoin.Domain.RefreshToken", b =>
                 {
                     b.Property<long>("Id")
@@ -138,7 +161,7 @@ namespace WebServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("refreshtokens");
                 });
 
             modelBuilder.Entity("HamsterCoin.Domain.User", b =>
@@ -154,15 +177,15 @@ namespace WebServer.Migrations
                         .HasColumnType("decimal(65,30)")
                         .HasColumnName("balance");
 
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime(6)")
+                    b.Property<DateOnly>("BirthDate")
+                        .HasColumnType("date")
                         .HasColumnName("birth_date");
 
-                    b.Property<string>("Mail")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)")
-                        .HasColumnName("mail");
+                        .HasColumnName("Email");
 
                     b.Property<string>("Nickname")
                         .IsRequired()
@@ -176,13 +199,10 @@ namespace WebServer.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("password");
 
-                    b.Property<string>("Promocode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("promocode");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("users");
                 });

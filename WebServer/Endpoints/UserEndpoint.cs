@@ -1,9 +1,8 @@
 //using SharpGrip.FluentValidation.AutoValidation.Endpoints.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using HamsterCoin.Services.Interfaces;
-using HamsterCoin.Mapping;
+using HamsterCoin.DTO;
 using HamsterCoin.Auth;
-using HamsterCoin.Security;
 
 namespace HamsterCoin.Endpoints
 {
@@ -11,7 +10,7 @@ namespace HamsterCoin.Endpoints
     {
         public static void UserEndpoints(this IEndpointRouteBuilder routes)
         {
-            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization().WithTags("UserEndpoints");; //.AddFluentValidationAutoValidation();
+            var routeGroupBuilder = routes.MapGroup("/users").RequireAuthorization().WithTags("UserEndpoints"); //.AddFluentValidationAutoValidation();
 
             routeGroupBuilder.MapGet("/", async ([FromServices] IUserService userService) =>
             {
@@ -29,12 +28,12 @@ namespace HamsterCoin.Endpoints
             }).AllowAnonymous();
 
             routes.MapPost("/login", async (IConfiguration config,
-                [FromBody] UserRequest userRequest, 
+                [FromBody] AuthenticationRequest authenticationRequest,
                 [FromServices] IAuthenticationService authenticationService) =>
             {
                 try
                 {
-                    var user = userRequest.FromRequest();
+                    var user = authenticationRequest.FromRequest();
                     user = await authenticationService.AuthenticateByUser(user);
                     if (user == null) return Results.Unauthorized();
 
@@ -47,12 +46,24 @@ namespace HamsterCoin.Endpoints
                 }
                 catch (Exception ex)
                 { 
+
+                    return Results.Ok(new LoginDto
+                    {
+                        Nick = user.Nickname,
+                        balance = user.Balance,
+                        email = user.Email,
+                        accessToken = access_Token,
+                        refreshToken = refresh_Token.Token
+                    });
+                }
+                catch (Exception ex)
+                {
                     return Results.BadRequest(ex.Message);
                 }
             });
 
-            routes.MapPost("/refresh-token", async ([FromBody] string refreshToken, 
-                IConfiguration config, 
+            routes.MapPost("/refresh-token", async ([FromBody] string refreshToken,
+                IConfiguration config,
                 [FromServices] IAuthenticationService authenticationService) =>
             {
                 var oldtoken = await authenticationService.FindRefreshTokenByTokenAsync(refreshToken);
@@ -73,16 +84,29 @@ namespace HamsterCoin.Endpoints
                 });
             });
 
-            routes.MapPost("/logout", async 
-            ( 
-                [FromBody] string refreshToken, 
-                IConfiguration config, 
+            routes.MapPost("/logout", async
+            (
+                [FromBody] string refreshToken,
+                IConfiguration config,
                 [FromServices] IAuthenticationService authenticationService
             ) =>
             {
                 await authenticationService.LogoutAsync(refreshToken);
                 return Results.Ok("Logged out successfully.");
             });
+            
+            routeGroupBuilder.MapPut("/refresh-balance", async (
+                [FromBody] RefreshBalanceRequest refreshBalanceRequest,
+                [FromServices] IUserService userService,
+                [FromServices] IJwtService jwtService) =>
+            {
+                long userId = jwtService.GetUserId(refreshBalanceRequest.JWTtoken);
+
+                await userService.UpdateBalanceByUserIdAsync(refreshBalanceRequest.Balance, userId);
+                return Results.Ok();
+            });
+
+
         }
     }
 }
